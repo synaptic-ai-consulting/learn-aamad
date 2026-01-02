@@ -3,8 +3,8 @@
 > **A guided, hands-on introduction to AAMAD and the Agentic Architect mindset**
 
 [![Start the Free Course](https://img.shields.io/badge/Start%20the%20Free%20Course-Click%20Here-blue)](./course/01-intro-agentic-architect.md)
-[![Join Tier 1](https://img.shields.io/badge/Join%20Tier%201-Waitlist-green)](#join-tier-1)
-[![Become an Agentic Architect](https://img.shields.io/badge/Become%20an%20Agentic%20Architect-Tier%202-purple)](#become-an-agentic-architect)
+[![Join Tier 1](https://img.shields.io/badge/Join%20Tier%201-Coming%20Soon-orange)](#the-agentic-architect-ladder)
+[![Become an Agentic Architect](https://img.shields.io/badge/Become%20an%20Agentic%20Architect-Tier%202-purple)](https://maven.com/carmelo-iaria/mastering-mas-crewai?utm_source=github&utm_medium=learn-aamad-repo&utm_campaign=tier2-course)
 
 ---
 
@@ -80,8 +80,8 @@ Apply everything you've learned by building a small multi-agent application usin
 This course is **Tier 0** of a three-tier learning path:
 
 - **Tier 0 (This Course):** Self-paced GitHub course – learn concepts + mini AAMAD run
-- **Tier 1:** 2-week cohort – apply AAMAD on more realistic internal tools
-- **Tier 2:** 6-week project – full systems, evaluation, governance, portfolio
+- **Tier 1:** 2-week cohort – apply AAMAD on more realistic internal tools *(Coming Soon)*
+- **Tier 2:** 6-week project – full systems, evaluation, governance, portfolio → [**Enroll Now**](https://maven.com/carmelo-iaria/mastering-mas-crewai?utm_source=github&utm_medium=learn-aamad-repo&utm_campaign=tier2-course)
 
 ---
 
@@ -107,8 +107,8 @@ This course is **Tier 0** of a three-tier learning path:
 
 - ⭐ **Star the repo** to show your support
 - 📧 **Join our email list** for updates and resources
-- 🚀 **Join Tier 1 waitlist** for the 2-week cohort experience
-- 🎓 **Join Tier 2** to become a certified Agentic Architect
+- 🚀 **Tier 1 (2-week cohort)** – Coming Soon
+- 🎓 **[Join Tier 2](https://maven.com/carmelo-iaria/mastering-mas-crewai?utm_source=github&utm_medium=learn-aamad-repo&utm_campaign=tier2-course)** – Become a certified Agentic Architect (6-week project-based course)
 
 ---
 
@@ -127,7 +127,7 @@ See our [Contributing Guide](./CONTRIBUTING.md) for more details.
 ## Resources
 
 - [AAMAD Framework Repository](https://github.com/synaptic-ai-consulting/AAMAD)
-- [The Agentic Architect Playbook](#) (Coming Soon)
+- [The Agentic Architect Playbook](https://maven.com/p/c2fee4/the-agentic-architect-playbook?utm_source=github&utm_medium=learn-aamad-repo&utm_campaign=playbook)
 
 ---
 
