@@ -32,12 +32,14 @@ AAMAD is built on the principle that **context engineering** (not model tweaking
 
 AAMAD organizes work into three sequential phases, each with clear artifacts, personas, and rules to keep development auditable and reusable:
 
-```
-┌─────────┐      ┌─────────┐      ┌─────────┐
-│ DEFINE  │ ───> │  BUILD  │ ───> │ DELIVER │
-└─────────┘      └─────────┘      └─────────┘
-   Context          Execution      Operations
-   Setup            & Code         & Deploy
+```mermaid
+flowchart LR
+    A[DEFINE<br/>Context Setup] --> B[BUILD<br/>Execution & Code]
+    B --> C[DELIVER<br/>Operations & Deploy]
+    
+    style A fill:#e1f5ff,stroke:#01579b,stroke-width:2px,color:#000000
+    style B fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000000
+    style C fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000000
 ```
 
 #### Phase 1: Define
@@ -159,28 +161,42 @@ These agents are **permanent**—they run in production and deliver value to end
 
 ### Visualizing the Distinction
 
-```
-┌─────────────────────────────────────────────────┐
-│         DEVELOPMENT CREW (Temporary)            │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐     │
-│  │ Product  │  │ System   │  │ Frontend │     │
-│  │ Manager  │  │Architect │  │ Engineer │     │
-│  └──────────┘  └──────────┘  └──────────┘     │
-│                                                │
-│  These agents BUILD your application           │
-└─────────────────────────────────────────────────┘
-                    │
-                    │ Creates
-                    ▼
-┌─────────────────────────────────────────────────┐
-│        APPLICATION CREW (Permanent)             │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐     │
-│  │ Support  │  │Document  │  │Workflow  │     │
-│  │  Agent   │  │Analyzer  │  │Orchestr. │     │
-│  └──────────┘  └──────────┘  └──────────┘     │
-│                                                │
-│  These agents ARE your application             │
-└─────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph DevCrew["DEVELOPMENT CREW (Temporary)"]
+        direction LR
+        PM[Product Manager]
+        SA[System Architect]
+        FE[Frontend Engineer]
+        BE[Backend Engineer]
+        IE[Integration Engineer]
+        QA[QA Engineer]
+        DO[DevOps Engineer]
+    end
+    
+    subgraph AppCrew["APPLICATION CREW (Permanent)"]
+        direction LR
+        Support[Support Agent]
+        Doc[Document Analyzer]
+        Workflow[Workflow Orchestrator]
+        Rec[Recommendation Engine]
+    end
+    
+    DevCrew -->|Creates| AppCrew
+    
+    style DevCrew fill:#fff3e0,stroke:#e65100,stroke-width:3px,color:#000000
+    style AppCrew fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px,color:#000000
+    style PM fill:#ffccbc,color:#000000
+    style SA fill:#ffccbc,color:#000000
+    style FE fill:#ffccbc,color:#000000
+    style BE fill:#ffccbc,color:#000000
+    style IE fill:#ffccbc,color:#000000
+    style QA fill:#ffccbc,color:#000000
+    style DO fill:#ffccbc,color:#000000
+    style Support fill:#c8e6c9,color:#000000
+    style Doc fill:#c8e6c9,color:#000000
+    style Workflow fill:#c8e6c9,color:#000000
+    style Rec fill:#c8e6c9,color:#000000
 ```
 
 ### Core AAMAD Concepts
