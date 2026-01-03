@@ -104,10 +104,26 @@
   </div>
 
   <div id="progress-section" style="display: none;">
-    <div id="completion-status" style="margin-bottom: 1rem;">
-      <p style="color: #c9d1d9;"><strong>Status:</strong> <span id="status-text">Not started</span></p>
-      <div id="progress-bar" style="width: 100%; height: 8px; background-color: #21262d; border-radius: 4px; margin-top: 0.5rem;">
-        <div id="progress-fill" style="height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 4px; width: 0%; transition: width 0.3s;"></div>
+    <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+      <!-- Module Navigation Grid -->
+      <div style="flex: 1; min-width: 300px;">
+        <h4 style="color: #c9d1d9; margin-top: 0; margin-bottom: 1rem;">Course Progress</h4>
+        <div id="modules-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1rem;">
+          <!-- Modules will be injected here -->
+        </div>
+        <div id="progress-summary" style="color: #8b949e; font-size: 0.9rem;">
+          <span id="completed-count">0</span> of 8 modules completed
+        </div>
+      </div>
+      
+      <!-- Certificate Actions -->
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; min-width: 200px;">
+        <button id="download-certificate-btn" disabled style="background-color: #21262d; color: #8b949e; padding: 0.75rem 1.5rem; border: 1px solid #30363d; border-radius: 6px; cursor: not-allowed; font-weight: 600; text-align: center; width: 100%;">
+          📥 Download Certificate
+        </button>
+        <button id="post-linkedin-btn" disabled style="background-color: #21262d; color: #8b949e; padding: 0.75rem 1.5rem; border: 1px solid #30363d; border-radius: 6px; cursor: not-allowed; font-weight: 600; text-align: center; width: 100%;">
+          🔗 Post to LinkedIn
+        </button>
       </div>
     </div>
   </div>
@@ -262,19 +278,122 @@
       `).join('');
     }
     
+    // Module metadata
+    const MODULES = [
+      { number: 1, title: 'Introduction to Agentic Architect', url: '/course/01-intro-agentic-architect.html' },
+      { number: 2, title: 'AAMAD Overview', url: '/course/02-aamad-overview.html' },
+      { number: 3, title: 'Context Engineering Basics', url: '/course/03-context-engineering-basics.html' },
+      { number: 4, title: 'Building Multi-Agent AI Systems', url: '/course/04-building-your-multiagent-application-crew.html' },
+      { number: 5, title: 'Hands-On: Define Phase', url: '/course/05-hands-on-mini-project-define.html' },
+      { number: 6, title: 'Hands-On: Build Phase', url: '/course/06-hands-on-mini-project-build.html' },
+      { number: 7, title: 'Hands-On: Deliver Phase', url: '/course/07-hands-on-mini-project-deliver.html' },
+      { number: 8, title: 'Value and Next Steps', url: '/course/08-value-and-next-steps.html' }
+    ];
+    
+    function renderModulesGrid(moduleStatuses) {
+      const grid = document.getElementById('modules-grid');
+      if (!grid) return;
+      
+      const baseUrl = window.location.origin;
+      grid.innerHTML = MODULES.map(mod => {
+        const isCompleted = moduleStatuses[mod.number] || false;
+        const isCurrent = mod.number === moduleNumber;
+        const moduleUrl = baseUrl + mod.url;
+        
+        return `
+          <a href="${moduleUrl}" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background-color: ${isCurrent ? '#21262d' : '#0d1117'}; border: 2px solid ${isCurrent ? '#667eea' : '#30363d'}; border-radius: 6px; text-decoration: none; color: #c9d1d9; transition: all 0.2s; ${isCurrent ? 'box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);' : ''}">
+            <div style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              ${isCompleted ? '<span style="color: #3fb950; font-size: 1.2rem;">✓</span>' : '<div style="width: 18px; height: 18px; border: 2px solid #30363d; border-radius: 4px; background-color: #0d1117;"></div>'}
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-weight: 600; font-size: 0.9rem;">Module ${mod.number.toString().padStart(2, '0')}</div>
+              <div style="font-size: 0.85rem; color: #8b949e; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${mod.title}</div>
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+    
+    async function loadAllModuleStatuses() {
+      const currentStudentId = localStorage.getItem('learn-aamad-student-id');
+      if (!currentStudentId) return {};
+      
+      const statuses = {};
+      const promises = MODULES.map(mod => 
+        fetch(`${API_BASE_URL}/module-status?student_id=${currentStudentId}&module_number=${mod.number}`)
+          .then(res => res.ok ? res.json() : { completed: false })
+          .then(data => ({ number: mod.number, completed: data.completed || false }))
+          .catch(() => ({ number: mod.number, completed: false }))
+      );
+      
+      const results = await Promise.all(promises);
+      results.forEach(result => {
+        statuses[result.number] = result.completed;
+      });
+      
+      return statuses;
+    }
+    
     async function loadModuleStatus() {
       // Read studentId from localStorage (not closure variable)
       const currentStudentId = localStorage.getItem('learn-aamad-student-id');
       if (!currentStudentId) return;
+      
       try {
+        // Load all module statuses for the grid
+        const allStatuses = await loadAllModuleStatuses();
+        renderModulesGrid(allStatuses);
+        
+        // Update completion count
+        const completedCount = Object.values(allStatuses).filter(Boolean).length;
+        const completedCountEl = document.getElementById('completed-count');
+        if (completedCountEl) completedCountEl.textContent = completedCount;
+        
+        // Update certificate buttons
+        const allComplete = completedCount === 8;
+        const downloadBtn = document.getElementById('download-certificate-btn');
+        const linkedInBtn = document.getElementById('post-linkedin-btn');
+        
+        if (downloadBtn) {
+          downloadBtn.disabled = !allComplete;
+          if (allComplete) {
+            downloadBtn.style.backgroundColor = '#667eea';
+            downloadBtn.style.color = 'white';
+            downloadBtn.style.cursor = 'pointer';
+            downloadBtn.style.borderColor = '#667eea';
+          } else {
+            downloadBtn.style.backgroundColor = '#21262d';
+            downloadBtn.style.color = '#8b949e';
+            downloadBtn.style.cursor = 'not-allowed';
+            downloadBtn.style.borderColor = '#30363d';
+          }
+        }
+        
+        if (linkedInBtn) {
+          linkedInBtn.disabled = !allComplete;
+          if (allComplete) {
+            linkedInBtn.style.backgroundColor = '#0077b5';
+            linkedInBtn.style.color = 'white';
+            linkedInBtn.style.cursor = 'pointer';
+            linkedInBtn.style.borderColor = '#0077b5';
+          } else {
+            linkedInBtn.style.backgroundColor = '#21262d';
+            linkedInBtn.style.color = '#8b949e';
+            linkedInBtn.style.cursor = 'not-allowed';
+            linkedInBtn.style.borderColor = '#30363d';
+          }
+        }
+        
+        // Load current module status
         const response = await fetch(`${API_BASE_URL}/module-status?student_id=${currentStudentId}&module_number=${moduleNumber}`);
         if (response.ok) {
           const data = await response.json();
           if (data.completed) {
-            document.getElementById('status-text').textContent = '✅ Completed';
-            document.getElementById('progress-fill').style.width = '100%';
-            document.getElementById('submit-btn').textContent = '✅ Module Complete';
-            document.getElementById('submit-btn').disabled = true;
+            const submitBtn = document.getElementById('submit-btn');
+            if (submitBtn) {
+              submitBtn.textContent = '✅ Module Complete';
+              submitBtn.disabled = true;
+            }
             if (data.answers) {
               const moduleAnswers = document.getElementById('module-answers');
               if (moduleAnswers) {
@@ -284,10 +403,12 @@
                 });
               }
             }
-            if (data.all_modules_complete) checkAndDisplayCertificate();
-          } else {
-            document.getElementById('status-text').textContent = 'In Progress';
-            document.getElementById('progress-fill').style.width = '0%';
+            if (data.all_modules_complete) {
+              checkAndDisplayCertificate();
+              // Reload all statuses to update the grid
+              const updatedStatuses = await loadAllModuleStatuses();
+              renderModulesGrid(updatedStatuses);
+            }
           }
         }
       } catch (error) {
@@ -302,11 +423,15 @@
       const currentStudentId = localStorage.getItem('learn-aamad-student-id');
       if (!currentStudentId) { showError('Please register first.'); return; }
       
+      // Collect answers from bottom section only
       const answers = {};
-      document.querySelectorAll('#questions-container textarea').forEach(textarea => {
-        const qNum = textarea.dataset.question;
-        if (qNum && textarea.value.trim()) answers[`answer-${qNum}`] = textarea.value.trim();
-      });
+      const moduleAnswers = document.getElementById('module-answers');
+      if (moduleAnswers) {
+        moduleAnswers.querySelectorAll('#questions-container textarea').forEach(textarea => {
+          const qNum = textarea.dataset.question;
+          if (qNum && textarea.value.trim()) answers[`answer-${qNum}`] = textarea.value.trim();
+        });
+      }
       
       const submitBtn = document.getElementById('submit-btn');
       submitBtn.disabled = true;
@@ -363,11 +488,15 @@
       const currentStudentId = localStorage.getItem('learn-aamad-student-id');
       if (!currentStudentId) { showError('Please register first.'); return; }
       
+      // Collect answers from bottom section only
       const answers = {};
-      document.querySelectorAll('#questions-container textarea').forEach(textarea => {
-        const qNum = textarea.dataset.question;
-        if (qNum && textarea.value.trim()) answers[`answer-${qNum}`] = textarea.value.trim();
-      });
+      const moduleAnswers = document.getElementById('module-answers');
+      if (moduleAnswers) {
+        moduleAnswers.querySelectorAll('#questions-container textarea').forEach(textarea => {
+          const qNum = textarea.dataset.question;
+          if (qNum && textarea.value.trim()) answers[`answer-${qNum}`] = textarea.value.trim();
+        });
+      }
       
       try {
         await fetch(API_BASE_URL + '/save-draft', {
