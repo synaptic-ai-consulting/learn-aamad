@@ -24,8 +24,6 @@ Thumbs.db
 
 # Project specific
 project-context/
-examples/*/logs/
-examples/*/__pycache__/
 *.log
 
 # Environment variables
