@@ -31,71 +31,54 @@
       return; // Invalid module number
     }
 
-    // Find the insertion point (at the top, before markdown content)
-    const trackerContainer = document.getElementById('module-tracker-container');
+    // Find containers for top (progress) and bottom (answers)
+    const container = document.querySelector('.container');
+    if (!container) {
+      console.warn('Could not find container to inject tracker');
+      return;
+    }
     
-    if (!trackerContainer) {
-      // Fallback: find container or create one
-      const container = document.querySelector('.container');
-      if (container) {
-        const newContainer = document.createElement('div');
-        newContainer.id = 'module-tracker-container';
-        const markdownBody = container.querySelector('.markdown-body');
-        if (markdownBody) {
-          container.insertBefore(newContainer, markdownBody);
-        } else {
-          container.insertBefore(newContainer, container.firstChild);
-        }
+    // Create top container for progress tracker
+    const topTrackerContainer = document.getElementById('module-tracker-container');
+    if (!topTrackerContainer) {
+      const newTopContainer = document.createElement('div');
+      newTopContainer.id = 'module-tracker-container';
+      const markdownBody = container.querySelector('.markdown-body');
+      if (markdownBody) {
+        container.insertBefore(newTopContainer, markdownBody);
       } else {
-        console.warn('Could not find container to inject tracker');
-        return;
+        container.insertBefore(newTopContainer, container.firstChild);
+      }
+    }
+    
+    // Create bottom container for answers submission
+    const bottomTrackerContainer = document.getElementById('module-answers-container');
+    if (!bottomTrackerContainer) {
+      const newBottomContainer = document.createElement('div');
+      newBottomContainer.id = 'module-answers-container';
+      const markdownBody = container.querySelector('.markdown-body');
+      if (markdownBody) {
+        container.appendChild(newBottomContainer);
+      } else {
+        container.appendChild(newBottomContainer);
       }
     }
 
-    // Inject tracker HTML with embedded functionality
-    injectTracker(trackerContainer, moduleNumber);
+    // Inject progress tracker at top and answers form at bottom
+    injectTrackerSplit(topTrackerContainer, bottomTrackerContainer, moduleNumber);
   }
 
-  function injectTracker(container, moduleNumber) {
-    // Try to load the tracker HTML file first
-    fetch('/_includes/module-tracker.html')
-      .then(response => {
-        if (!response.ok) throw new Error('Failed to load tracker HTML');
-        return response.text();
-      })
-      .then(html => {
-        // Replace Jekyll syntax with actual module number
-        let processedHTML = html
-          .replace(/\{\{\s*page\.module_number\s*\}\}/g, moduleNumber)
-          .replace(/\{\{\s*page\.title\s*\}\}/g, document.title || `Module ${moduleNumber}`);
-        
-        // Inject the HTML
-        container.innerHTML = processedHTML;
-        
-        // Extract and execute any script tags (innerHTML doesn't execute scripts)
-        const scripts = container.querySelectorAll('script');
-        scripts.forEach(oldScript => {
-          const newScript = document.createElement('script');
-          Array.from(oldScript.attributes).forEach(attr => {
-            newScript.setAttribute(attr.name, attr.value);
-          });
-          newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-          oldScript.parentNode.replaceChild(newScript, oldScript);
-        });
-      })
-      .catch(error => {
-        console.error('Error loading tracker HTML, using inline fallback:', error);
-        // Fallback: inject tracker inline
-        injectTrackerInline(container, moduleNumber);
-      });
+  function injectTrackerSplit(topContainer, bottomContainer, moduleNumber) {
+    // Inject progress tracker at top and answers form at bottom
+    injectTrackerInline(topContainer, bottomContainer, moduleNumber);
   }
 
-  function injectTrackerInline(container, moduleNumber) {
-    // Inline tracker HTML (fallback if file can't be loaded)
-    // This is a simplified self-contained version
+  function injectTrackerInline(topContainer, bottomContainer, moduleNumber) {
+    // Inline tracker HTML split into top (progress) and bottom (answers)
     const API_BASE_URL = 'https://learn-aamad-1bstuneub-synaptic-ai-consulting.vercel.app/api';
     
-    container.innerHTML = `
+    // Top container: Progress tracker and registration
+    topContainer.innerHTML = `
 <div id="module-tracker" data-module-number="${moduleNumber}" style="margin: 2rem 0; padding: 1.5rem; border: 2px solid #30363d; border-radius: 6px; background-color: #161b22;">
   <h3 style="margin-top: 0; color: #c9d1d9;">📊 Track Your Progress</h3>
   
@@ -126,29 +109,6 @@
       <div id="progress-bar" style="width: 100%; height: 8px; background-color: #21262d; border-radius: 4px; margin-top: 0.5rem;">
         <div id="progress-fill" style="height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 4px; width: 0%; transition: width 0.3s;"></div>
       </div>
-    </div>
-
-    <div id="answers-section" style="margin-top: 1.5rem;">
-      <h4 style="color: #c9d1d9;">Submit Your Answers</h4>
-      <p style="font-size: 0.9rem; color: #8b949e;">Answer the "Check Your Understanding" questions below, then submit your responses.</p>
-      
-      <form id="answers-form">
-        <div id="questions-container"></div>
-        
-        <div style="margin-top: 1rem;">
-          <label for="submission-url" style="color: #c9d1d9; display: block; margin-bottom: 0.5rem;">Link to your deliverables (GitHub repo, Google Drive, etc.):</label>
-          <input type="url" id="submission-url" placeholder="https://github.com/yourusername/your-project" style="width: 100%; padding: 0.5rem; background-color: #0d1117; border: 1px solid #30363d; border-radius: 4px; color: #c9d1d9;">
-        </div>
-        
-        <div style="margin-top: 1rem; display: flex; gap: 1rem;">
-          <button type="submit" id="submit-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
-            ✅ Mark Module Complete
-          </button>
-          <button type="button" id="save-draft-btn" style="background-color: #21262d; color: #c9d1d9; padding: 0.75rem 1.5rem; border: 1px solid #30363d; border-radius: 6px; cursor: pointer;">
-            💾 Save Draft
-          </button>
-        </div>
-      </form>
     </div>
   </div>
 
@@ -185,7 +145,33 @@
 </div>
     `;
 
-    // Initialize tracker functionality
+    // Bottom container: Answers submission form
+    bottomContainer.innerHTML = `
+<div id="module-answers" data-module-number="${moduleNumber}" style="margin: 2rem 0; padding: 1.5rem; border: 2px solid #30363d; border-radius: 6px; background-color: #161b22;">
+  <h3 style="margin-top: 0; color: #c9d1d9;">📝 Submit Your Answers</h3>
+  <p style="font-size: 0.9rem; color: #8b949e; margin-bottom: 1.5rem;">Answer the "Check Your Understanding" questions below, then submit your responses.</p>
+  
+  <form id="answers-form">
+    <div id="questions-container"></div>
+    
+    <div style="margin-top: 1rem;">
+      <label for="submission-url" style="color: #c9d1d9; display: block; margin-bottom: 0.5rem;">Link to your deliverables (GitHub repo, Google Drive, etc.):</label>
+      <input type="url" id="submission-url" placeholder="https://github.com/yourusername/your-project" style="width: 100%; padding: 0.5rem; background-color: #0d1117; border: 1px solid #30363d; border-radius: 4px; color: #c9d1d9;">
+    </div>
+    
+    <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+      <button type="submit" id="submit-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+        ✅ Mark Module Complete
+      </button>
+      <button type="button" id="save-draft-btn" style="background-color: #21262d; color: #c9d1d9; padding: 0.75rem 1.5rem; border: 1px solid #30363d; border-radius: 6px; cursor: pointer;">
+        💾 Save Draft
+      </button>
+    </div>
+  </form>
+</div>
+    `;
+
+    // Initialize tracker functionality (shared between top and bottom)
     initializeTracker(moduleNumber, API_BASE_URL);
   }
 
