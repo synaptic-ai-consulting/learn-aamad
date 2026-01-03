@@ -272,9 +272,11 @@
     }
     
     async function loadModuleStatus() {
-      if (!studentId) return;
+      // Read studentId from localStorage (not closure variable)
+      const currentStudentId = localStorage.getItem('learn-aamad-student-id');
+      if (!currentStudentId) return;
       try {
-        const response = await fetch(`${API_BASE_URL}/module-status?student_id=${studentId}&module_number=${moduleNumber}`);
+        const response = await fetch(`${API_BASE_URL}/module-status?student_id=${currentStudentId}&module_number=${moduleNumber}`);
         if (response.ok) {
           const data = await response.json();
           if (data.completed) {
@@ -302,7 +304,9 @@
     
     document.getElementById('answers-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!studentId) { showError('Please register first.'); return; }
+      // Read studentId from localStorage (not closure variable)
+      const currentStudentId = localStorage.getItem('learn-aamad-student-id');
+      if (!currentStudentId) { showError('Please register first.'); return; }
       
       const answers = {};
       document.querySelectorAll('#questions-container textarea').forEach(textarea => {
@@ -319,7 +323,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            student_id: studentId,
+            student_id: currentStudentId,
             module_number: moduleNumber,
             answers: answers,
             submission_url: document.getElementById('submission-url').value || null
@@ -339,10 +343,12 @@
         
         if (data.all_modules_complete) {
           try {
+            // Read studentId from localStorage (not closure variable)
+            const currentStudentId = localStorage.getItem('learn-aamad-student-id');
             await fetch(API_BASE_URL + '/generate-certificate', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ student_id: studentId })
+              body: JSON.stringify({ student_id: currentStudentId })
             });
             setTimeout(() => checkAndDisplayCertificate(), 1000);
           } catch (err) {
@@ -359,7 +365,9 @@
     });
     
     document.getElementById('save-draft-btn')?.addEventListener('click', async () => {
-      if (!studentId) { showError('Please register first.'); return; }
+      // Read studentId from localStorage (not closure variable)
+      const currentStudentId = localStorage.getItem('learn-aamad-student-id');
+      if (!currentStudentId) { showError('Please register first.'); return; }
       
       const answers = {};
       document.querySelectorAll('#questions-container textarea').forEach(textarea => {
@@ -371,7 +379,7 @@
         await fetch(API_BASE_URL + '/save-draft', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ student_id: studentId, module_number: moduleNumber, answers: answers })
+          body: JSON.stringify({ student_id: currentStudentId, module_number: moduleNumber, answers: answers })
         });
         
         const btn = document.getElementById('save-draft-btn');
@@ -388,9 +396,11 @@
     });
     
     async function checkAndDisplayCertificate() {
-      if (!studentId) return;
+      // Read studentId from localStorage (not closure variable)
+      const currentStudentId = localStorage.getItem('learn-aamad-student-id');
+      if (!currentStudentId) return;
       try {
-        const response = await fetch(`${API_BASE_URL}/get-certificate?student_id=${studentId}`);
+        const response = await fetch(`${API_BASE_URL}/get-certificate?student_id=${currentStudentId}`);
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.certificate_url) {
