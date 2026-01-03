@@ -26,6 +26,9 @@ Thumbs.db
 project-context/
 *.log
 
+# API code (moved to private repository)
+api-example/
+
 # Environment variables
 .env
 .env.local

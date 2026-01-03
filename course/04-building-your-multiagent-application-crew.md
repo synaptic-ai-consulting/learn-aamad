@@ -1,3 +1,9 @@
+---
+layout: default
+module_number: 4
+title: Introduction to Building Multi-Agent AI Systems with CrewAI
+---
+
 # Module 04: Introduction to Building Multi-Agent AI Systems with CrewAI
 
 **Estimated time:** ~15 minutes  

@@ -1,0 +1,23 @@
+# Jekyll configuration for GitHub Pages
+# Minimal setup to enable module tracker injection
+
+title: Learn AAMAD
+description: Free self-paced course on AAMAD and the Agentic Architect mindset
+
+# GitHub Pages settings
+plugins:
+  - jekyll-relative-links
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Exclude files from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+

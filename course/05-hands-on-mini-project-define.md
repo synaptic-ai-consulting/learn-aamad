@@ -1,3 +1,9 @@
+---
+layout: default
+module_number: 5
+title: Hands-On Mini-Project - Define Phase
+---
+
 # Module 05: Hands-On Mini-Project - Define Phase
 
 **Estimated time:** ~30 minutes  

@@ -1,3 +1,9 @@
+---
+layout: default
+module_number: 2
+title: AAMAD Overview
+---
+
 # Module 02: AAMAD Overview
 
 **Estimated time:** ~15 minutes  

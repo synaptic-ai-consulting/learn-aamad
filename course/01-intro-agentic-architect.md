@@ -1,3 +1,9 @@
+---
+layout: default
+module_number: 1
+title: Introduction to Agentic Architect
+---
+
 # Module 01: Introduction to Agentic Architect
 
 **Estimated time:** ~15 minutes  

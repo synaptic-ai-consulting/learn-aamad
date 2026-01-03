@@ -1,3 +1,9 @@
+---
+layout: default
+module_number: 8
+title: Value and Next Steps
+---
+
 # Module 08: Value and Next Steps
 
 **Estimated time:** ~15 minutes  

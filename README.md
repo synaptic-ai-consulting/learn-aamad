@@ -66,10 +66,10 @@ Apply everything you've learned by building a small multi-agent application usin
 | [02](./course/02-aamad-overview.md) | AAMAD Overview | ~15 min | ✅ Available |
 | [03](./course/03-context-engineering-basics.md) | Context Engineering Basics | ~15 min | ✅ Available |
 | [04](./course/04-building-your-multiagent-application-crew.md) | Introduction to Building Multi-Agent AI Systems with CrewAI | ~15 min | ✅ Available |
-| [05](./course/05-hands-on-mini-project-define.md) | Hands-On: Define Phase | ~30 min | 🚧 Coming Soon |
-| [06](./course/06-hands-on-mini-project-build.md) | Hands-On: Build Phase | ~45 min | 🚧 Coming Soon |
-| [07](./course/07-hands-on-mini-project-deliver.md) | Hands-On: Deliver Phase | ~30 min | 🚧 Coming Soon |
-| [08](./course/08-value-and-next-steps.md) | Value and Next Steps | ~15 min | 🚧 Coming Soon |
+| [05](./course/05-hands-on-mini-project-define.md) | Hands-On: Define Phase | ~30 min | ✅ Available |
+| [06](./course/06-hands-on-mini-project-build.md) | Hands-On: Build Phase | ~45 min | ✅ Available |
+| [07](./course/07-hands-on-mini-project-deliver.md) | Hands-On: Deliver Phase | ~30 min | ✅ Available |
+| [08](./course/08-value-and-next-steps.md) | Value and Next Steps | ~15 min | ✅ Available |
 
 **Total estimated time: 4–6 hours**
 

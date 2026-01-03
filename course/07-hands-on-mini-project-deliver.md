@@ -1,3 +1,9 @@
+---
+layout: default
+module_number: 7
+title: Hands-On Mini-Project - Deliver Phase
+---
+
 # Module 07: Hands-On Mini-Project - Deliver Phase
 
 **Estimated time:** ~30 minutes  

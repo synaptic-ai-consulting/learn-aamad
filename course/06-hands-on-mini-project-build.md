@@ -1,3 +1,9 @@
+---
+layout: default
+module_number: 6
+title: Hands-On Mini-Project - Build Phase
+---
+
 # Module 06: Hands-On Mini-Project - Build Phase
 
 **Estimated time:** ~45 minutes  

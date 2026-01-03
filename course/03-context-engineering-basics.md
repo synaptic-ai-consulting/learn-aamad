@@ -1,3 +1,9 @@
+---
+layout: default
+module_number: 3
+title: Context Engineering Basics
+---
+
 # Module 03: Context Engineering Basics
 
 **Estimated time:** ~15 minutes  
