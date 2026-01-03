@@ -2,7 +2,9 @@
 
 > **A guided, hands-on introduction to AAMAD and the Agentic Architect mindset**
 
-[![Start the Free Course](https://img.shields.io/badge/Start%20the%20Free%20Course-Click%20Here-blue)](./course/01-intro-agentic-architect.md)
+[![Start the Free Course](https://img.shields.io/badge/Start%20the%20Free%20Course-Click%20Here-blue)](https://synaptic-ai-consulting.github.io/learn-aamad/course/01-intro-agentic-architect.html)
+
+> 📚 **Take the course on [GitHub Pages](https://synaptic-ai-consulting.github.io/learn-aamad/)** to track your progress, submit answers, and receive your completion certificate!
 [![Join Tier 1](https://img.shields.io/badge/Join%20Tier%201-Coming%20Soon-orange)](#the-agentic-architect-ladder)
 [![Become an Agentic Architect](https://img.shields.io/badge/Become%20an%20Agentic%20Architect-Tier%202-purple)](https://maven.com/carmelo-iaria/mastering-mas-crewai?utm_source=github&utm_medium=learn-aamad-repo&utm_campaign=tier2-course)
 
@@ -62,14 +64,14 @@ Apply everything you've learned by building a small multi-agent application usin
 
 | Module | Title | Time | Status |
 |--------|-------|------|--------|
-| [01](./course/01-intro-agentic-architect.md) | Introduction to Agentic Architect | ~15 min | ✅ Available |
-| [02](./course/02-aamad-overview.md) | AAMAD Overview | ~15 min | ✅ Available |
-| [03](./course/03-context-engineering-basics.md) | Context Engineering Basics | ~15 min | ✅ Available |
-| [04](./course/04-building-your-multiagent-application-crew.md) | Introduction to Building Multi-Agent AI Systems with CrewAI | ~15 min | ✅ Available |
-| [05](./course/05-hands-on-mini-project-define.md) | Hands-On: Define Phase | ~30 min | ✅ Available |
-| [06](./course/06-hands-on-mini-project-build.md) | Hands-On: Build Phase | ~45 min | ✅ Available |
-| [07](./course/07-hands-on-mini-project-deliver.md) | Hands-On: Deliver Phase | ~30 min | ✅ Available |
-| [08](./course/08-value-and-next-steps.md) | Value and Next Steps | ~15 min | ✅ Available |
+| [01](https://synaptic-ai-consulting.github.io/learn-aamad/course/01-intro-agentic-architect.html) | Introduction to Agentic Architect | ~15 min | ✅ Available |
+| [02](https://synaptic-ai-consulting.github.io/learn-aamad/course/02-aamad-overview.html) | AAMAD Overview | ~15 min | ✅ Available |
+| [03](https://synaptic-ai-consulting.github.io/learn-aamad/course/03-context-engineering-basics.html) | Context Engineering Basics | ~15 min | ✅ Available |
+| [04](https://synaptic-ai-consulting.github.io/learn-aamad/course/04-building-your-multiagent-application-crew.html) | Introduction to Building Multi-Agent AI Systems with CrewAI | ~15 min | ✅ Available |
+| [05](https://synaptic-ai-consulting.github.io/learn-aamad/course/05-hands-on-mini-project-define.html) | Hands-On: Define Phase | ~30 min | ✅ Available |
+| [06](https://synaptic-ai-consulting.github.io/learn-aamad/course/06-hands-on-mini-project-build.html) | Hands-On: Build Phase | ~45 min | ✅ Available |
+| [07](https://synaptic-ai-consulting.github.io/learn-aamad/course/07-hands-on-mini-project-deliver.html) | Hands-On: Deliver Phase | ~30 min | ✅ Available |
+| [08](https://synaptic-ai-consulting.github.io/learn-aamad/course/08-value-and-next-steps.html) | Value and Next Steps | ~15 min | ✅ Available |
 
 **Total estimated time: 4–6 hours**
 
@@ -97,9 +99,10 @@ This course is **Tier 0** of a three-tier learning path:
 ## Getting Started
 
 1. **Star this repository** ⭐ to stay updated
-2. **Start with Module 01:** [Introduction to Agentic Architect](./course/01-intro-agentic-architect.md)
+2. **Start with Module 01:** [Introduction to Agentic Architect](https://synaptic-ai-consulting.github.io/learn-aamad/course/01-intro-agentic-architect.html)
 3. **Follow the modules sequentially** – each builds on the previous
 4. **Complete the hands-on exercises** to reinforce learning
+5. **Track your progress** – Register on any module page to track completion and receive your certificate
 
 ---
 
@@ -146,5 +149,7 @@ We'd love to hear from you! Please:
 
 ---
 
-**Ready to start?** → [Begin with Module 01: Introduction to Agentic Architect](./course/01-intro-agentic-architect.md)
+**Ready to start?** → [Begin with Module 01: Introduction to Agentic Architect](https://synaptic-ai-consulting.github.io/learn-aamad/course/01-intro-agentic-architect.html)
+
+> 💡 **Tip:** For the best learning experience with progress tracking and certificates, access the course via [GitHub Pages](https://synaptic-ai-consulting.github.io/learn-aamad/) rather than viewing markdown files directly on GitHub.
 
