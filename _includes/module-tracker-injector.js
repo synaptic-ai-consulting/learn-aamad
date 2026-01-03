@@ -240,8 +240,13 @@
     
     function populateQuestionsForm() {
       const questions = extractQuestions();
-      const container = document.getElementById('questions-container');
-      if (!container) return;
+      // Target the questions-container in the bottom answers section, not the top tracker
+      const moduleAnswers = document.getElementById('module-answers');
+      const container = moduleAnswers ? moduleAnswers.querySelector('#questions-container') : null;
+      if (!container) {
+        console.warn('Questions container not found in bottom section');
+        return;
+      }
       
       if (questions.length === 0) {
         container.innerHTML = '<p style="color: #8b949e;">No questions found. You can still mark the module as complete.</p>';
@@ -271,10 +276,13 @@
             document.getElementById('submit-btn').textContent = '✅ Module Complete';
             document.getElementById('submit-btn').disabled = true;
             if (data.answers) {
-              Object.entries(data.answers).forEach(([key, value]) => {
-                const textarea = document.querySelector(`textarea[name="${key}"]`);
-                if (textarea) textarea.value = value;
-              });
+              const moduleAnswers = document.getElementById('module-answers');
+              if (moduleAnswers) {
+                Object.entries(data.answers).forEach(([key, value]) => {
+                  const textarea = moduleAnswers.querySelector(`textarea[name="${key}"]`);
+                  if (textarea) textarea.value = value;
+                });
+              }
             }
             if (data.all_modules_complete) checkAndDisplayCertificate();
           } else {
