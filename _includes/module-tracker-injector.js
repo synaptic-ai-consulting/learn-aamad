@@ -302,11 +302,15 @@
       const currentStudentId = localStorage.getItem('learn-aamad-student-id');
       if (!currentStudentId) { showError('Please register first.'); return; }
       
+      // Collect answers from bottom section only
       const answers = {};
-      document.querySelectorAll('#questions-container textarea').forEach(textarea => {
-        const qNum = textarea.dataset.question;
-        if (qNum && textarea.value.trim()) answers[`answer-${qNum}`] = textarea.value.trim();
-      });
+      const moduleAnswers = document.getElementById('module-answers');
+      if (moduleAnswers) {
+        moduleAnswers.querySelectorAll('#questions-container textarea').forEach(textarea => {
+          const qNum = textarea.dataset.question;
+          if (qNum && textarea.value.trim()) answers[`answer-${qNum}`] = textarea.value.trim();
+        });
+      }
       
       const submitBtn = document.getElementById('submit-btn');
       submitBtn.disabled = true;
@@ -363,11 +367,15 @@
       const currentStudentId = localStorage.getItem('learn-aamad-student-id');
       if (!currentStudentId) { showError('Please register first.'); return; }
       
+      // Collect answers from bottom section only
       const answers = {};
-      document.querySelectorAll('#questions-container textarea').forEach(textarea => {
-        const qNum = textarea.dataset.question;
-        if (qNum && textarea.value.trim()) answers[`answer-${qNum}`] = textarea.value.trim();
-      });
+      const moduleAnswers = document.getElementById('module-answers');
+      if (moduleAnswers) {
+        moduleAnswers.querySelectorAll('#questions-container textarea').forEach(textarea => {
+          const qNum = textarea.dataset.question;
+          if (qNum && textarea.value.trim()) answers[`answer-${qNum}`] = textarea.value.trim();
+        });
+      }
       
       try {
         await fetch(API_BASE_URL + '/save-draft', {
