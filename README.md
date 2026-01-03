@@ -62,10 +62,10 @@ Apply everything you've learned by building a small multi-agent application usin
 
 | Module | Title | Time | Status |
 |--------|-------|------|--------|
-| [01](./course/01-intro-agentic-architect.md) | Introduction to Agentic Architect | ~15 min | 🚧 Coming Soon |
-| [02](./course/02-aamad-overview.md) | AAMAD Overview | ~15 min | 🚧 Coming Soon |
-| [03](./course/03-context-engineering-basics.md) | Context Engineering Basics | ~15 min | 🚧 Coming Soon |
-| [04](./course/04-orchestration-patterns-and-HITL.md) | Orchestration Patterns and HITL | ~15 min | 🚧 Coming Soon |
+| [01](./course/01-intro-agentic-architect.md) | Introduction to Agentic Architect | ~15 min | ✅ Available |
+| [02](./course/02-aamad-overview.md) | AAMAD Overview | ~15 min | ✅ Available |
+| [03](./course/03-context-engineering-basics.md) | Context Engineering Basics | ~15 min | ✅ Available |
+| [04](./course/04-building-your-multiagent-application-crew.md) | Introduction to Building Multi-Agent AI Systems with CrewAI | ~15 min | ✅ Available |
 | [05](./course/05-hands-on-mini-project-define.md) | Hands-On: Define Phase | ~30 min | 🚧 Coming Soon |
 | [06](./course/06-hands-on-mini-project-build.md) | Hands-On: Build Phase | ~45 min | 🚧 Coming Soon |
 | [07](./course/07-hands-on-mini-project-deliver.md) | Hands-On: Deliver Phase | ~30 min | 🚧 Coming Soon |

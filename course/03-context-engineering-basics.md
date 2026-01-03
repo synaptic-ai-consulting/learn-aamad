@@ -415,5 +415,5 @@ Reflect on these questions to solidify your understanding:
 
 ## Next Steps
 
-Continue to [Module 04: Orchestration Patterns and HITL](./04-orchestration-patterns-and-HITL.md)
+Continue to [Module 04: Introduction to Building Multi-Agent AI Systems with CrewAI](./04-building-your-multiagent-application-crew.md)
 
