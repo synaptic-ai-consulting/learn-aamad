@@ -264,9 +264,9 @@
       
       container.innerHTML = questions.map(q => `
         <div style="margin-bottom: 1.5rem;">
-          <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Question ${q.number}:</label>
-          <p style="margin-bottom: 0.5rem; color: #586069;">${q.text}</p>
-          <textarea name="answer-${q.number}" data-question="${q.number}" rows="3" placeholder="Type your answer here..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; font-family: inherit;"></textarea>
+          <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #c9d1d9;">Question ${q.number}:</label>
+          <p style="margin-bottom: 0.5rem; color: #8b949e;">${q.text}</p>
+          <textarea name="answer-${q.number}" data-question="${q.number}" rows="3" placeholder="Type your answer here..." style="width: 100%; padding: 0.5rem; background-color: #0d1117; border: 1px solid #30363d; border-radius: 4px; font-family: inherit; color: #c9d1d9;"></textarea>
         </div>
       `).join('');
     }
