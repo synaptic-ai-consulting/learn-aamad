@@ -11,6 +11,8 @@ By the end of this module, you will be able to:
 - Explain the Define–Build–Deliver phases of AAMAD
 - Distinguish between Development Crew and Application Crew
 - Identify key artifacts produced in each phase
+- Understand how Cursor rules guide agent behavior
+- Recognize the role of templates in standardizing artifact creation
 
 ---
 
@@ -163,8 +165,18 @@ These agents are **permanent**—they run in production and deliver value to end
 
 ```mermaid
 flowchart TD
+    subgraph AppCrew["APPLICATION CREW (Permanent)"]
+        direction TB
+        Support[Support Agent]
+        Doc[Document Analyzer]
+        Workflow[Workflow Orchestrator]
+        Rec[Recommendation Engine]
+    end
+    
+    AA((Agentic Architect))
+    
     subgraph DevCrew["DEVELOPMENT CREW (Temporary)"]
-        direction LR
+        direction TB
         PM[Product Manager]
         SA[System Architect]
         FE[Frontend Engineer]
@@ -174,18 +186,12 @@ flowchart TD
         DO[DevOps Engineer]
     end
     
-    subgraph AppCrew["APPLICATION CREW (Permanent)"]
-        direction LR
-        Support[Support Agent]
-        Doc[Document Analyzer]
-        Workflow[Workflow Orchestrator]
-        Rec[Recommendation Engine]
-    end
+    AppCrew <-->|Orchestrates| AA
+    AA <-->|Orchestrates| DevCrew
     
-    DevCrew -->|Creates| AppCrew
-    
-    style DevCrew fill:#fff3e0,stroke:#e65100,stroke-width:3px,color:#000000
     style AppCrew fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px,color:#000000
+    style AA fill:#bbdefb,stroke:#1976d2,stroke-width:4px,color:#000000
+    style DevCrew fill:#fff3e0,stroke:#e65100,stroke-width:3px,color:#000000
     style PM fill:#ffccbc,color:#000000
     style SA fill:#ffccbc,color:#000000
     style FE fill:#ffccbc,color:#000000
@@ -250,6 +256,140 @@ your-project/
 **Framework artifacts** (`.cursor/`) are reusable across projects.  
 **Project-context** contains all generated and instance-specific documentation.
 
+### Cursor Rules: The Framework's Brain
+
+AAMAD uses **Cursor rules** (stored in `.cursor/rules/`) to guide AI agent behavior and ensure consistent, high-quality output across all phases. These rules act as the "constitution" for your AI agents, defining how they should think, work, and make decisions.
+
+#### What Are Cursor Rules?
+
+Cursor rules are markdown files that define:
+- **Architecture patterns** - How to structure code and systems
+- **Workflow patterns** - How agents should coordinate and execute tasks
+- **Quality standards** - What "good" looks like for code, documentation, and artifacts
+- **Best practices** - Proven approaches for common scenarios
+
+When you use CursorAI (or compatible AI coding assistants) with AAMAD, these rules are automatically loaded, ensuring all agents follow the same standards and patterns.
+
+#### AAMAD Rule Categories
+
+The [AAMAD framework](https://github.com/synaptic-ai-consulting/AAMAD) includes three main rule categories:
+
+1. **Core Rules** (`core`)
+   - Fundamental principles for AI-assisted development
+   - Context engineering best practices
+   - Artifact creation standards
+   - Quality and maintainability guidelines
+
+2. **Development Workflow Rules** (`development-workflow`)
+   - How agents should execute the Build phase
+   - Code organization patterns
+   - Testing and integration standards
+   - Documentation requirements
+
+3. **CrewAI Adapter Rules** (`adapter-crewai`)
+   - How to integrate with CrewAI framework
+   - Agent orchestration patterns
+   - Multi-agent coordination guidelines
+   - Application Crew implementation patterns
+
+#### How Rules Work
+
+Rules are loaded automatically when you:
+- Start a new chat session with an agent persona
+- Reference an agent persona (e.g., `@system-architect`)
+- Work within the AAMAD project structure
+
+**Example:** When you invoke `@backend-engineer`, the agent automatically:
+- Loads core rules (quality standards, context engineering)
+- Loads development-workflow rules (code patterns, testing)
+- Applies these rules to all code and documentation it creates
+
+This ensures consistency across:
+- Different chat sessions
+- Different agent personas
+- Different phases of development
+- Different team members
+
+### Templates: Structured Context Generation
+
+AAMAD provides **templates** (stored in `.cursor/templates/`) that standardize artifact creation across all phases. These templates ensure consistency, completeness, and quality in all generated documentation.
+
+#### Available Templates
+
+The framework includes templates for each phase:
+
+**Phase 1: Define Templates**
+- **`mrd-template.md`** - Market Research Document template
+  - Problem statement structure
+  - Market opportunity analysis
+  - Competitive landscape framework
+  - Target user definition
+
+- **`prd-template.md`** - Product Requirements Document template
+  - Product overview structure
+  - Feature requirements format
+  - User persona templates
+  - Success metrics framework
+  - Application Crew definition
+
+**Phase 2: Build Templates**
+- **`sad-template.md`** - Solution Architecture Document template
+  - Architecture overview structure
+  - Component design format
+  - Technology stack documentation
+  - Integration patterns
+  - Orchestration pattern selection
+  - HITL (Human-in-the-Loop) gate definitions
+
+**Phase 3: Deliver Templates**
+- **`runbook-template.md`** - Operational runbook template
+  - Deployment procedures
+  - Monitoring setup
+  - Troubleshooting guides
+  - Escalation procedures
+
+#### How Templates Work
+
+1. **Agent Invocation**: When you invoke an agent persona (e.g., `@product-mgr`), it knows which template to use
+2. **Structured Generation**: The agent uses the template to create artifacts with consistent structure
+3. **Completeness Check**: Templates ensure all necessary sections are included
+4. **Quality Assurance**: Standardized format makes artifacts easier to review and maintain
+
+**Example Workflow:**
+```
+You: @product-mgr Please create a PRD for our customer service chatbot
+
+Agent: 
+1. Loads prd-template.md
+2. Fills in each section based on your requirements
+3. Creates project-context/1.define/prd.md
+4. Ensures all required sections are complete
+```
+
+#### Benefits of Templates
+
+- **Consistency** - All PRDs, SADs, and runbooks follow the same structure
+- **Completeness** - Templates ensure nothing is missed
+- **Reusability** - Templates work across all projects
+- **Maintainability** - Standard structure makes updates easier
+- **Onboarding** - New team members understand the format immediately
+
+### Agents and Prompts: Persona Definitions
+
+The `.cursor/agents/` and `.cursor/prompts/` folders complete the framework:
+
+**Agents** (`.cursor/agents/`)
+- Define each agent persona's role, responsibilities, and expertise
+- Specify which templates and rules each persona uses
+- Establish persona-specific workflows
+
+**Prompts** (`.cursor/prompts/`)
+- Parameterized prompts for common tasks
+- Phase-specific prompt templates
+- Context loading instructions
+
+Together, rules, templates, agents, and prompts create a complete system for consistent, high-quality AI-assisted development.
+
 ### Why AAMAD Works
 
 AAMAD addresses common problems in AI-assisted development:
@@ -303,6 +443,11 @@ Reflect on these questions to solidify your understanding:
 4. **Persona Benefits**: How does the persona-driven approach (single responsibility per agent) help prevent the "slop" problem in AI-assisted development?
 
 5. **Phase Dependencies**: Why must the phases run in order (Define → Build → Deliver)? What would happen if you tried to Build without Define, or Deliver without Build?
+
+6. **Cursor Rules and Templates**: 
+   - How do Cursor rules ensure consistency across different agent personas and chat sessions?
+   - What's the difference between a template (like `prd-template.md`) and the actual artifact (like `prd.md`)?
+   - Why are templates important for maintaining quality in AI-generated artifacts?
 
 ---
 
