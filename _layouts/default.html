@@ -33,7 +33,16 @@
     </div>
     
     <!-- Module Tracker Injector -->
-    <script src="/_includes/module-tracker-injector.js"></script>
+    <script src="{{ '/assets/js/module-tracker-injector.js' | relative_url }}"></script>
+    <!-- Fallback: inline script if external fails -->
+    <script>
+      // Debug: Check if script loaded
+      window.addEventListener('load', function() {
+        if (typeof window.moduleTrackerLoaded === 'undefined') {
+          console.warn('Module tracker script may not have loaded. Checking path:', window.location.pathname);
+        }
+      });
+    </script>
 </body>
 </html>
 
