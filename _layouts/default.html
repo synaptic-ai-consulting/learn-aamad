@@ -66,14 +66,18 @@
         .logo {
             width: 40px;
             height: 40px;
-            background: rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: white;
-            font-size: 1.2rem;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         
         .brand-text {
@@ -267,7 +271,9 @@
     <header class="header-banner">
         <div class="header-content">
             <div class="brand-section">
-                <div class="logo">SA</div>
+                <div class="logo">
+                    <img src="{{ '/assets/images/synaptic-logo-icon-only.jpg' | relative_url }}" alt="Synaptic AI Consulting Logo">
+                </div>
                 <div class="brand-text">
                     <h1>Synaptic AI Consulting</h1>
                     <p>Learn AAMAD Course</p>
