@@ -3,10 +3,10 @@
 > **A guided, hands-on introduction to AAMAD and the Agentic Architect mindset**
 
 [![Start the Free Course](https://img.shields.io/badge/Start%20the%20Free%20Course-Click%20Here-blue)](https://synaptic-ai-consulting.github.io/learn-aamad/course/01-intro-agentic-architect.html)
-
-> 📚 **Take the course on [GitHub Pages](https://synaptic-ai-consulting.github.io/learn-aamad/)** to track your progress, submit answers, and receive your completion certificate!
 [![Join Tier 1](https://img.shields.io/badge/Join%20Tier%201-Coming%20Soon-orange)](#the-agentic-architect-ladder)
 [![Become an Agentic Architect](https://img.shields.io/badge/Become%20an%20Agentic%20Architect-Tier%202-purple)](https://maven.com/carmelo-iaria/mastering-mas-crewai?utm_source=github&utm_medium=learn-aamad-repo&utm_campaign=tier2-course)
+
+> 📚 **Take the course on [GitHub Pages](https://synaptic-ai-consulting.github.io/learn-aamad/)** to track your progress, submit answers, and receive your completion certificate!
 
 ---
 
