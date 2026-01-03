@@ -4,45 +4,317 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+    
+    <!-- Mermaid.js for diagram rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --border-color: #30363d;
+            --accent-color: #58a6ff;
+            --accent-hover: #79c0ff;
+            --success-color: #3fb950;
+            --error-color: #f85149;
+            --brand-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #24292e;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
         }
+        
+        /* Header Banner */
+        .header-banner {
+            background: var(--brand-gradient);
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .brand-text {
+            color: white;
+        }
+        
+        .brand-text h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .brand-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .course-title {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: right;
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
         .markdown-body {
-            box-sizing: border-box;
-            min-width: 200px;
-            max-width: 980px;
-            margin: 0 auto;
-            padding: 45px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
+        
+        /* Typography */
+        .markdown-body h1,
+        .markdown-body h2,
+        .markdown-body h3,
+        .markdown-body h4,
+        .markdown-body h5,
+        .markdown-body h6 {
+            color: var(--text-primary);
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            font-weight: 600;
+        }
+        
+        .markdown-body h1 {
+            font-size: 2em;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.3em;
+        }
+        
+        .markdown-body h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.3em;
+        }
+        
+        .markdown-body p {
+            margin-bottom: 1em;
+            color: var(--text-primary);
+        }
+        
+        .markdown-body a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .markdown-body a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+        
+        .markdown-body ul,
+        .markdown-body ol {
+            margin-bottom: 1em;
+            padding-left: 2em;
+            color: var(--text-primary);
+        }
+        
+        .markdown-body li {
+            margin-bottom: 0.5em;
+        }
+        
+        .markdown-body blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1em;
+            margin: 1em 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        
+        .markdown-body hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 2em 0;
+        }
+        
+        /* Code Blocks */
+        .markdown-body pre {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1em;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+        
+        .markdown-body code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.9em;
+            background-color: var(--bg-tertiary);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            color: var(--accent-color);
+        }
+        
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            color: var(--text-primary);
+            display: block;
+            white-space: pre;
+        }
+        
+        /* Tables */
+        .markdown-body table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+        }
+        
+        .markdown-body table th,
+        .markdown-body table td {
+            border: 1px solid var(--border-color);
+            padding: 0.75em;
+            text-align: left;
+        }
+        
+        .markdown-body table th {
+            background-color: var(--bg-tertiary);
+            font-weight: 600;
+        }
+        
+        .markdown-body table tr:nth-child(even) {
+            background-color: var(--bg-primary);
+        }
+        
+        /* Mermaid Diagrams */
+        .markdown-body .mermaid {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.5em;
+            margin: 2em 0;
+            text-align: center;
+        }
+        
+        /* Responsive */
         @media (max-width: 767px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .course-title {
+                text-align: left;
+            }
+            
             .markdown-body {
-                padding: 15px;
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="markdown-body">
-        {{ content }}
+    <!-- Header Banner -->
+    <header class="header-banner">
+        <div class="header-content">
+            <div class="brand-section">
+                <div class="logo">SA</div>
+                <div class="brand-text">
+                    <h1>Synaptic AI Consulting</h1>
+                    <p>Learn AAMAD Course</p>
+                </div>
+            </div>
+            <div class="course-title">
+                {% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Module Tracker will be injected here at the top -->
+        <div id="module-tracker-container"></div>
+        
+        <div class="markdown-body">
+            {{ content }}
+        </div>
     </div>
     
     <!-- Module Tracker Injector -->
     <script src="{{ '/assets/js/module-tracker-injector.js' | relative_url }}"></script>
-    <!-- Fallback: inline script if external fails -->
+    
+    <!-- Initialize Mermaid -->
     <script>
-      // Debug: Check if script loaded
-      window.addEventListener('load', function() {
-        if (typeof window.moduleTrackerLoaded === 'undefined') {
-          console.warn('Module tracker script may not have loaded. Checking path:', window.location.pathname);
-        }
-      });
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#667eea',
+                primaryTextColor: '#c9d1d9',
+                primaryBorderColor: '#30363d',
+                lineColor: '#58a6ff',
+                secondaryColor: '#764ba2',
+                tertiaryColor: '#161b22',
+                background: '#0d1117',
+                mainBkg: '#161b22',
+                secondBkg: '#21262d',
+                textColor: '#c9d1d9',
+                border1: '#30363d',
+                border2: '#58a6ff',
+                noteBkgColor: '#21262d',
+                noteTextColor: '#c9d1d9',
+                noteBorderColor: '#30363d'
+            }
+        });
     </script>
 </body>
 </html>
-

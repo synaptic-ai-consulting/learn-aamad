@@ -31,25 +31,25 @@
       return; // Invalid module number
     }
 
-    // Find the insertion point (after main content)
-    const article = document.querySelector('article, main, .markdown-body, [role="main"]');
-    const content = article || document.body;
+    // Find the insertion point (at the top, before markdown content)
+    const trackerContainer = document.getElementById('module-tracker-container');
     
-    if (!content) {
-      console.warn('Could not find content area to inject tracker');
-      return;
-    }
-
-    // Create container and inject tracker
-    const trackerContainer = document.createElement('div');
-    trackerContainer.id = 'module-tracker-container';
-    
-    // Insert before the last element (usually navigation/footer) or at the end
-    const lastChild = content.lastElementChild;
-    if (lastChild && (lastChild.tagName === 'NAV' || lastChild.classList.contains('footer'))) {
-      content.insertBefore(trackerContainer, lastChild);
-    } else {
-      content.appendChild(trackerContainer);
+    if (!trackerContainer) {
+      // Fallback: find container or create one
+      const container = document.querySelector('.container');
+      if (container) {
+        const newContainer = document.createElement('div');
+        newContainer.id = 'module-tracker-container';
+        const markdownBody = container.querySelector('.markdown-body');
+        if (markdownBody) {
+          container.insertBefore(newContainer, markdownBody);
+        } else {
+          container.insertBefore(newContainer, container.firstChild);
+        }
+      } else {
+        console.warn('Could not find container to inject tracker');
+        return;
+      }
     }
 
     // Inject tracker HTML with embedded functionality
@@ -96,25 +96,25 @@
     const API_BASE_URL = 'https://learn-aamad-1bstuneub-synaptic-ai-consulting.vercel.app/api';
     
     container.innerHTML = `
-<div id="module-tracker" data-module-number="${moduleNumber}" style="margin: 2rem 0; padding: 1.5rem; border: 2px solid #e1e4e8; border-radius: 6px; background-color: #f6f8fa;">
-  <h3 style="margin-top: 0;">📊 Track Your Progress</h3>
+<div id="module-tracker" data-module-number="${moduleNumber}" style="margin: 2rem 0; padding: 1.5rem; border: 2px solid #30363d; border-radius: 6px; background-color: #161b22;">
+  <h3 style="margin-top: 0; color: #c9d1d9;">📊 Track Your Progress</h3>
   
   <div id="registration-section" style="display: none;">
-    <p>To track your progress and receive your certificate, please register:</p>
+    <p style="color: #c9d1d9;">To track your progress and receive your certificate, please register:</p>
     <form id="registration-form">
       <div style="margin-bottom: 1rem;">
-        <label for="student-email">Email:</label>
-        <input type="email" id="student-email" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem; border: 1px solid #d1d5db; border-radius: 4px;">
+        <label for="student-email" style="color: #c9d1d9; display: block; margin-bottom: 0.5rem;">Email:</label>
+        <input type="email" id="student-email" required style="width: 100%; padding: 0.5rem; background-color: #0d1117; border: 1px solid #30363d; border-radius: 4px; color: #c9d1d9;">
       </div>
       <div style="margin-bottom: 1rem;">
-        <label for="student-linkedin">LinkedIn Profile URL (optional):</label>
-        <input type="url" id="student-linkedin" placeholder="https://linkedin.com/in/yourprofile" style="width: 100%; padding: 0.5rem; margin-top: 0.25rem; border: 1px solid #d1d5db; border-radius: 4px;">
+        <label for="student-linkedin" style="color: #c9d1d9; display: block; margin-bottom: 0.5rem;">LinkedIn Profile URL (optional):</label>
+        <input type="url" id="student-linkedin" placeholder="https://linkedin.com/in/yourprofile" style="width: 100%; padding: 0.5rem; background-color: #0d1117; border: 1px solid #30363d; border-radius: 4px; color: #c9d1d9;">
       </div>
       <div style="margin-bottom: 1rem;">
-        <label for="student-name">Full Name:</label>
-        <input type="text" id="student-name" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem; border: 1px solid #d1d5db; border-radius: 4px;">
+        <label for="student-name" style="color: #c9d1d9; display: block; margin-bottom: 0.5rem;">Full Name:</label>
+        <input type="text" id="student-name" required style="width: 100%; padding: 0.5rem; background-color: #0d1117; border: 1px solid #30363d; border-radius: 4px; color: #c9d1d9;">
       </div>
-      <button type="submit" style="background-color: #0366d6; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+      <button type="submit" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
         Register & Continue
       </button>
     </form>
@@ -122,29 +122,29 @@
 
   <div id="progress-section" style="display: none;">
     <div id="completion-status" style="margin-bottom: 1rem;">
-      <p><strong>Status:</strong> <span id="status-text">Not started</span></p>
-      <div id="progress-bar" style="width: 100%; height: 8px; background-color: #e1e4e8; border-radius: 4px; margin-top: 0.5rem;">
-        <div id="progress-fill" style="height: 100%; background-color: #28a745; border-radius: 4px; width: 0%; transition: width 0.3s;"></div>
+      <p style="color: #c9d1d9;"><strong>Status:</strong> <span id="status-text">Not started</span></p>
+      <div id="progress-bar" style="width: 100%; height: 8px; background-color: #21262d; border-radius: 4px; margin-top: 0.5rem;">
+        <div id="progress-fill" style="height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 4px; width: 0%; transition: width 0.3s;"></div>
       </div>
     </div>
 
     <div id="answers-section" style="margin-top: 1.5rem;">
-      <h4>Submit Your Answers</h4>
-      <p style="font-size: 0.9rem; color: #586069;">Answer the "Check Your Understanding" questions below, then submit your responses.</p>
+      <h4 style="color: #c9d1d9;">Submit Your Answers</h4>
+      <p style="font-size: 0.9rem; color: #8b949e;">Answer the "Check Your Understanding" questions below, then submit your responses.</p>
       
       <form id="answers-form">
         <div id="questions-container"></div>
         
         <div style="margin-top: 1rem;">
-          <label for="submission-url">Link to your deliverables (GitHub repo, Google Drive, etc.):</label>
-          <input type="url" id="submission-url" placeholder="https://github.com/yourusername/your-project" style="width: 100%; padding: 0.5rem; margin-top: 0.25rem; border: 1px solid #d1d5db; border-radius: 4px;">
+          <label for="submission-url" style="color: #c9d1d9; display: block; margin-bottom: 0.5rem;">Link to your deliverables (GitHub repo, Google Drive, etc.):</label>
+          <input type="url" id="submission-url" placeholder="https://github.com/yourusername/your-project" style="width: 100%; padding: 0.5rem; background-color: #0d1117; border: 1px solid #30363d; border-radius: 4px; color: #c9d1d9;">
         </div>
         
         <div style="margin-top: 1rem; display: flex; gap: 1rem;">
-          <button type="submit" id="submit-btn" style="background-color: #28a745; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+          <button type="submit" id="submit-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
             ✅ Mark Module Complete
           </button>
-          <button type="button" id="save-draft-btn" style="background-color: #6a737d; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer;">
+          <button type="button" id="save-draft-btn" style="background-color: #21262d; color: #c9d1d9; padding: 0.75rem 1.5rem; border: 1px solid #30363d; border-radius: 6px; cursor: pointer;">
             💾 Save Draft
           </button>
         </div>
@@ -152,7 +152,7 @@
     </div>
   </div>
 
-  <div id="success-message" style="display: none; padding: 1rem; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 4px; color: #155724; margin-top: 1rem;">
+  <div id="success-message" style="display: none; padding: 1rem; background-color: #1a472a; border: 1px solid #238636; border-radius: 4px; color: #3fb950; margin-top: 1rem;">
     ✅ Module marked as complete! Great work!
   </div>
 
@@ -179,7 +179,7 @@
     </div>
   </div>
 
-  <div id="error-message" style="display: none; padding: 1rem; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; color: #721c24; margin-top: 1rem;">
+  <div id="error-message" style="display: none; padding: 1rem; background-color: #3d2115; border: 1px solid #da3633; border-radius: 4px; color: #f85149; margin-top: 1rem;">
     <span id="error-text"></span>
   </div>
 </div>
@@ -258,7 +258,7 @@
       if (!container) return;
       
       if (questions.length === 0) {
-        container.innerHTML = '<p style="color: #586069;">No questions found. You can still mark the module as complete.</p>';
+        container.innerHTML = '<p style="color: #8b949e;">No questions found. You can still mark the module as complete.</p>';
         return;
       }
       
