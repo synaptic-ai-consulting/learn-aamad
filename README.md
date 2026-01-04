@@ -25,7 +25,7 @@ By the end of this course, you will:
 - Understand the **Agentic Architect** role and how it differs from "just using AI tools"
 - Master the **AAMAD framework** (Define–Build–Deliver) for building multi-agent applications
 - Learn **context engineering** as the core lever for AI-assisted development
-- Experience **orchestration patterns** and Human-in-the-Loop (HITL) design
+- Understand **orchestration patterns** and how to design multi-agent systems
 - Complete a hands-on mini-project using the AAMAD framework end-to-end
 
 ---
@@ -50,14 +50,13 @@ Apply everything you've learned by building a small multi-agent application usin
 
 ## How to Take This Course
 
-### Suggested Learning Path
+### Suggested Learning Plan
 
 **Session 1 (2–3 hours):**
-- Modules 01–04: Mindset + AAMAD + Context Engineering + Orchestration/HITL
-- Fill PRD for your chosen mini-project
+- Modules 01–04: Mindset + AAMAD + Context Engineering + Multi-agent AI Systems
 
 **Session 2 (2–3 hours):**
-- Modules 05–07: Run mini-project, see agents produce code/artifacts, simulate delivery
+- Modules 05–07: Run mini-project, define project scope, see agents produce code/artifacts, simulate delivery
 - Module 08: Reflect on gaps → apply to Tier 1/Tier 2
 
 ### Course Modules
@@ -82,8 +81,8 @@ Apply everything you've learned by building a small multi-agent application usin
 This course is **Tier 0** of a three-tier learning path:
 
 - **Tier 0 (This Course):** Self-paced GitHub course – learn concepts + mini AAMAD run
-- **Tier 1:** 2-week cohort – apply AAMAD on more realistic internal tools *(Coming Soon)*
-- **Tier 2:** 6-week project – full systems, evaluation, governance, portfolio → [**Enroll Now**](https://maven.com/carmelo-iaria/mastering-mas-crewai?utm_source=github&utm_medium=learn-aamad-repo&utm_campaign=tier2-course)
+- **Tier 1:** 2-week cohort – apply AAMAD with live mentoring *(Coming Soon)*
+- **Tier 2:** 6-week project – full stack multi-agent systems, evaluation, governance, portfolio project → [**Enroll Now**](https://maven.com/carmelo-iaria/mastering-mas-crewai?utm_source=github&utm_medium=learn-aamad-repo&utm_campaign=tier2-course)
 
 ---
 
@@ -109,7 +108,7 @@ This course is **Tier 0** of a three-tier learning path:
 ## Call to Action
 
 - ⭐ **Star the repo** to show your support
-- 📧 **Join our email list** for updates and resources
+- 📧 **[Download](https://maven.com/p/c2fee4/the-agentic-architect-playbook?utm_source=github&utm_medium=learn-aamad-repo&utm_campaign=playbook)** The Agentic Architect Playbook for free
 - 🚀 **Tier 1 (2-week cohort)** – Coming Soon
 - 🎓 **[Join Tier 2](https://maven.com/carmelo-iaria/mastering-mas-crewai?utm_source=github&utm_medium=learn-aamad-repo&utm_campaign=tier2-course)** – Become a certified Agentic Architect (6-week project-based course)
 
