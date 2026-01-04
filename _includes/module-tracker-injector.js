@@ -192,6 +192,48 @@
   }
 
   function initializeTracker(moduleNumber, API_BASE_URL) {
+    // Module metadata - defined first so it's available for rendering
+    const MODULES = [
+      { number: 1, title: 'Introduction to Agentic Architect', url: '/course/01-intro-agentic-architect.html' },
+      { number: 2, title: 'AAMAD Overview', url: '/course/02-aamad-overview.html' },
+      { number: 3, title: 'Context Engineering Basics', url: '/course/03-context-engineering-basics.html' },
+      { number: 4, title: 'Building Multi-Agent AI Systems', url: '/course/04-building-your-multiagent-application-crew.html' },
+      { number: 5, title: 'Hands-On: Define Phase', url: '/course/05-hands-on-mini-project-define.html' },
+      { number: 6, title: 'Hands-On: Build Phase', url: '/course/06-hands-on-mini-project-build.html' },
+      { number: 7, title: 'Hands-On: Deliver Phase', url: '/course/07-hands-on-mini-project-deliver.html' },
+      { number: 8, title: 'Value and Next Steps', url: '/course/08-value-and-next-steps.html' }
+    ];
+    
+    function renderModulesGrid(moduleStatuses = {}) {
+      const grid = document.getElementById('modules-grid');
+      if (!grid) {
+        console.warn('modules-grid element not found');
+        return;
+      }
+      
+      const baseUrl = window.location.origin;
+      const gridHTML = MODULES.map(mod => {
+        const isCompleted = moduleStatuses[mod.number] || false;
+        const isCurrent = mod.number === moduleNumber;
+        const moduleUrl = baseUrl + mod.url;
+        
+        return `
+          <a href="${moduleUrl}" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background-color: ${isCurrent ? '#21262d' : '#0d1117'}; border: 2px solid ${isCurrent ? '#667eea' : '#30363d'}; border-radius: 6px; text-decoration: none; color: #c9d1d9; transition: all 0.2s; ${isCurrent ? 'box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);' : ''}">
+            <div style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              ${isCompleted ? '<span style="color: #3fb950; font-size: 1.2rem;">✓</span>' : '<div style="width: 18px; height: 18px; border: 2px solid #30363d; border-radius: 4px; background-color: #0d1117;"></div>'}
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-weight: 600; font-size: 0.9rem;">Module ${mod.number.toString().padStart(2, '0')}</div>
+              <div style="font-size: 0.85rem; color: #8b949e; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${mod.title}</div>
+            </div>
+          </a>
+        `;
+      }).join('');
+      
+      grid.innerHTML = gridHTML;
+      console.log('Modules grid rendered with', MODULES.length, 'modules');
+    }
+    
     const studentId = localStorage.getItem('learn-aamad-student-id');
     const studentEmail = localStorage.getItem('learn-aamad-student-email');
     
@@ -303,48 +345,6 @@
           <textarea name="answer-${q.number}" data-question="${q.number}" rows="3" placeholder="Type your answer here..." style="width: 100%; padding: 0.5rem; background-color: #0d1117; border: 1px solid #30363d; border-radius: 4px; font-family: inherit; color: #c9d1d9;"></textarea>
         </div>
       `).join('');
-    }
-    
-    // Module metadata
-    const MODULES = [
-      { number: 1, title: 'Introduction to Agentic Architect', url: '/course/01-intro-agentic-architect.html' },
-      { number: 2, title: 'AAMAD Overview', url: '/course/02-aamad-overview.html' },
-      { number: 3, title: 'Context Engineering Basics', url: '/course/03-context-engineering-basics.html' },
-      { number: 4, title: 'Building Multi-Agent AI Systems', url: '/course/04-building-your-multiagent-application-crew.html' },
-      { number: 5, title: 'Hands-On: Define Phase', url: '/course/05-hands-on-mini-project-define.html' },
-      { number: 6, title: 'Hands-On: Build Phase', url: '/course/06-hands-on-mini-project-build.html' },
-      { number: 7, title: 'Hands-On: Deliver Phase', url: '/course/07-hands-on-mini-project-deliver.html' },
-      { number: 8, title: 'Value and Next Steps', url: '/course/08-value-and-next-steps.html' }
-    ];
-    
-    function renderModulesGrid(moduleStatuses = {}) {
-      const grid = document.getElementById('modules-grid');
-      if (!grid) {
-        console.warn('modules-grid element not found');
-        return;
-      }
-      
-      const baseUrl = window.location.origin;
-      const gridHTML = MODULES.map(mod => {
-        const isCompleted = moduleStatuses[mod.number] || false;
-        const isCurrent = mod.number === moduleNumber;
-        const moduleUrl = baseUrl + mod.url;
-        
-        return `
-          <a href="${moduleUrl}" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background-color: ${isCurrent ? '#21262d' : '#0d1117'}; border: 2px solid ${isCurrent ? '#667eea' : '#30363d'}; border-radius: 6px; text-decoration: none; color: #c9d1d9; transition: all 0.2s; ${isCurrent ? 'box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);' : ''}">
-            <div style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              ${isCompleted ? '<span style="color: #3fb950; font-size: 1.2rem;">✓</span>' : '<div style="width: 18px; height: 18px; border: 2px solid #30363d; border-radius: 4px; background-color: #0d1117;"></div>'}
-            </div>
-            <div style="flex: 1; min-width: 0;">
-              <div style="font-weight: 600; font-size: 0.9rem;">Module ${mod.number.toString().padStart(2, '0')}</div>
-              <div style="font-size: 0.85rem; color: #8b949e; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${mod.title}</div>
-            </div>
-          </a>
-        `;
-      }).join('');
-      
-      grid.innerHTML = gridHTML;
-      console.log('Modules grid rendered with', MODULES.length, 'modules');
     }
     
     async function loadAllModuleStatuses() {
