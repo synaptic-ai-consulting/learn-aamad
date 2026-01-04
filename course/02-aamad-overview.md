@@ -443,19 +443,19 @@ Reflect on these questions to solidify your understanding:
 
 5. **Phase Identification**: Which AAMAD phase does "Designing the system architecture" belong to?
 
-6. **Crew Distinction**: Imagine you're building a document processing system. 
-   - What would be in your **Application Crew**? (What agents will users interact with?)
-   - What would be in your **Development Crew**? (What agents will build the system?)
+6. **Crew Distinction**: Imagine you're building a document processing system. What would be in your **Application Crew**? (What agents will users interact with?)
 
-7. **Artifact Traceability**: Why is it important that AAMAD stores all decisions as markdown artifacts? How does this help with maintenance and debugging?
+7. **Crew Distinction**: Imagine you're building a document processing system. What would be in your **Development Crew**? (What agents will build the system?)
 
-8. **Persona Benefits**: How does the persona-driven approach (single responsibility per agent) help prevent the "slop" problem in AI-assisted development?
+8. **Artifact Traceability**: Why is it important that AAMAD stores all decisions as markdown artifacts? How does this help with maintenance and debugging?
 
-9. **Phase Dependencies**: Why must the phases run in order (Define → Build → Deliver)? What would happen if you tried to Build without Define, or Deliver without Build?
+9. **Persona Benefits**: How does the persona-driven approach (single responsibility per agent) help prevent the "slop" problem in AI-assisted development?
 
-10. **Cursor Rules Consistency**: How do Cursor rules ensure consistency across different agent personas and chat sessions?
+10. **Phase Dependencies**: Why must the phases run in order (Define → Build → Deliver)? What would happen if you tried to Build without Define, or Deliver without Build?
 
-11. **Templates vs Artifacts**: What's the difference between a template (like `prd-template.md`) and the actual artifact (like `prd.md`)? Why are templates important for maintaining quality in AI-generated artifacts?
+11. **Cursor Rules Consistency**: How do Cursor rules ensure consistency across different agent personas and chat sessions?
+
+12. **Templates vs Artifacts**: What's the difference between a template (like `prd-template.md`) and the actual artifact (like `prd.md`)? Why are templates important for maintaining quality in AI-generated artifacts?
 
 ---
 
