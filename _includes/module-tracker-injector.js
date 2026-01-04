@@ -254,8 +254,31 @@
       return questions;
     }
     
+    function hideCheckUnderstandingSection() {
+      // Hide "Check Your Understanding" section from main content after extraction
+      const headings = document.querySelectorAll('.markdown-body h2, .markdown-body h3');
+      headings.forEach(function(heading) {
+        if (heading.textContent.includes('Check Your Understanding')) {
+          // Mark the heading and all following siblings until next heading
+          heading.style.display = 'none';
+          let next = heading.nextElementSibling;
+          while (next) {
+            // Stop at next h2 or h3
+            if (next.tagName === 'H2' || next.tagName === 'H3') {
+              break;
+            }
+            next.style.display = 'none';
+            next = next.nextElementSibling;
+          }
+        }
+      });
+    }
+    
     function populateQuestionsForm() {
       const questions = extractQuestions();
+      // Hide the section after extraction
+      hideCheckUnderstandingSection();
+      
       // Target the questions-container in the bottom answers section, not the top tracker
       const moduleAnswers = document.getElementById('module-answers');
       const container = moduleAnswers ? moduleAnswers.querySelector('#questions-container') : null;
