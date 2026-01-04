@@ -740,7 +740,7 @@
           linkedInBtn.disabled = true;
           linkedInBtn.textContent = '⏳ Generating...';
           const data = await ensureCertificateExists(currentStudentId);
-          if (data && data.success && data.verification_code && data.certificate_url) {
+          if (data && data.success && data.certificate_url) {
             showLinkedInShareModal(data);
           } else {
             showError('Certificate not found. Please complete all modules first.');
@@ -780,10 +780,8 @@
     function showLinkedInShareModal(certificateData) {
       const modal = document.getElementById('linkedin-share-modal');
       const postText = document.getElementById('linkedin-post-text');
-      const baseUrl = window.location.origin;
-      const verifyUrl = `${baseUrl}/verify-certificate.html?code=${certificateData.verification_code}`;
       
-      // Create suggested post text with certificate PDF URL included
+      // Create suggested post text with certificate PDF URL included (without verify URL)
       const suggestedText = `🎓 Excited to share that I've completed the "Agentic Architect Fundamentals" course by Synaptic AI Consulting!
 
 ✅ I've learned how to leverage the AAMAD (AI-Assisted Multi-Agent Application Development) framework to build production-ready AI applications using a persona-driven, context-engineered approach.
@@ -795,8 +793,6 @@ This course has equipped me with the skills to:
 • Apply the Agentic Architect mindset to deliver real business value
 
 📜 View my certificate: ${certificateData.certificate_url}
-
-Verify: ${verifyUrl}
 
 #AgenticArchitect #AAMAD #AI #CrewAI #AIAgents #MachineLearning #SoftwareArchitecture`;
       
