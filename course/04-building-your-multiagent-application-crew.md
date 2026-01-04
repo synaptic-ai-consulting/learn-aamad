@@ -387,16 +387,11 @@ Take a moment to reflect on these questions:
 
 2. **Crews vs Flows**: Imagine you're building a document analysis system. Would you use a Crew or a Flow? Why?
 
-3. **Orchestration Patterns**: You're designing a recommendation system that needs to:
-   - Analyze user preferences (Agent A)
-   - Search product catalog (Agent B)
-   - Generate personalized recommendations (Agent C)
-   
-   Which orchestration pattern would you choose? Why?
+3. **Orchestration Patterns**: You're designing a recommendation system that needs to: Analyze user preferences (Agent A), Search product catalog (Agent B), Generate personalized recommendations (Agent C). Which orchestration pattern would you choose? Why?
 
 4. **Application Crew Role**: How does the Application Crew differ from the Development Crew in the AAMAD framework? Where does each run, and what is their purpose?
 
-5. **Architecture Design**: Think of a simple application you'd like to build. What agents would make up your Application Crew? What tasks would each agent handle? Which orchestration pattern would you use?
+5. **Architecture Design**: Think of a simple application you'd like to build. What agents would make up your Application Crew? What tasks would each agent handle? Which orchestration pattern would you use? What would be in your **Application Crew**? (What agents will users interact with?) What would be in your **Development Crew**? (What agents will build the system?)
 
 ---
 

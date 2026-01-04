@@ -470,22 +470,19 @@ By the end of this module, you should have:
 
 Answer these questions to verify you understand the Define phase:
 
-1. **Why do we create MRD and PRD before writing code?**
-   - What happens if AI agents don't have clear context about what to build?
+1. **Why do we create MRD and PRD before writing code?** What happens if AI agents don't have clear context about what to build?
 
-2. **What's the difference between Application Crew and Development Crew?**
-   - Which crew are you defining in the PRD?
-   - Which crew will build the Application Crew?
+2. **What's the difference between Application Crew and Development Crew?** Which crew are you defining in the PRD?
 
-3. **Why use the AAMAD templates instead of creating documents from scratch?**
-   - What benefits do standardized templates provide?
+3. **Which crew will build the Application Crew?**
 
-4. **How does the Product Manager persona help in the Define phase?**
-   - What would happen if you tried to create MRD/PRD without using a persona?
+4. **Why use the AAMAD templates instead of creating documents from scratch?** What benefits do standardized templates provide?
 
-5. **Why is it important to review the PRD as an Agentic Architect?**
-   - What's the difference between accepting the PRD as-is vs. reviewing it with your Experience and Business hats?
-   - How does this review step demonstrate the value of the Agentic Architect role?
+5. **How does the Product Manager persona help in the Define phase?** What would happen if you tried to create MRD/PRD without using a persona?
+
+6. **Why is it important to review the PRD as an Agentic Architect?** What's the difference between accepting the PRD as-is vs. reviewing it with your Experience and Business hats?
+
+7. **How does reviewing the PRD demonstrate the value of the Agentic Architect role?**
 
 ---
 
