@@ -176,10 +176,10 @@
     <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: #0d1117; border: 1px solid #30363d; border-radius: 4px;">
       <p style="color: #c9d1d9; margin: 0 0 0.5rem 0; font-weight: 600;">Instructions:</p>
       <ol style="color: #8b949e; margin: 0; padding-left: 1.5rem;">
-        <li style="margin-bottom: 0.5rem;">Copy the post text above</li>
+        <li style="margin-bottom: 0.5rem;">Copy the post text above (it includes the certificate URL)</li>
         <li style="margin-bottom: 0.5rem;">Click "Open LinkedIn" below</li>
         <li style="margin-bottom: 0.5rem;">Paste the text in your LinkedIn post</li>
-        <li style="margin-bottom: 0.5rem;">Attach your certificate PDF (download it first using the Download button)</li>
+        <li style="margin-bottom: 0.5rem;">LinkedIn will automatically render the certificate URL as a clickable link</li>
         <li>Publish your post!</li>
       </ol>
     </div>
