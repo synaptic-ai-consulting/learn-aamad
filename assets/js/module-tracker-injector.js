@@ -80,7 +80,17 @@
     // Top container: Progress tracker and registration
     topContainer.innerHTML = `
 <div id="module-tracker" data-module-number="${moduleNumber}" style="margin: 2rem 0; padding: 1.5rem; border: 2px solid #30363d; border-radius: 6px; background-color: #161b22;">
-  <h3 style="margin-top: 0; color: #c9d1d9;">📊 Track Your Progress</h3>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+    <h3 style="margin: 0; color: #c9d1d9;">📊 Track Your Progress</h3>
+    <div id="certificate-buttons-container" style="display: none; gap: 0.75rem;">
+      <button id="download-certificate-btn" disabled style="background-color: #21262d; color: #8b949e; padding: 0.75rem 1.5rem; border: 1px solid #30363d; border-radius: 6px; cursor: not-allowed; font-weight: 600; text-align: center;">
+        📥 Download Certificate
+      </button>
+      <button id="post-linkedin-btn" disabled style="background-color: #21262d; color: #8b949e; padding: 0.75rem 1.5rem; border: 1px solid #30363d; border-radius: 6px; cursor: not-allowed; font-weight: 600; text-align: center;">
+        🔗 Post to LinkedIn
+      </button>
+    </div>
+  </div>
   
   <div id="registration-section" style="display: none;">
     <p style="color: #c9d1d9;">To track your progress and receive your certificate, please register:</p>
@@ -105,7 +115,6 @@
 
   <!-- Module Navigation Grid - Always visible for navigation -->
   <div id="modules-navigation-section" style="margin-bottom: 2rem;">
-    <h4 style="color: #c9d1d9; margin-top: 0; margin-bottom: 1rem;">Course Progress</h4>
     <div id="modules-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1rem;">
       <!-- Modules will be injected here -->
     </div>
@@ -115,17 +124,7 @@
   </div>
 
   <div id="progress-section" style="display: none;">
-    <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
-      <!-- Certificate Actions -->
-      <div style="display: flex; flex-direction: column; gap: 0.75rem; min-width: 200px; margin-left: auto;">
-        <button id="download-certificate-btn" disabled style="background-color: #21262d; color: #8b949e; padding: 0.75rem 1.5rem; border: 1px solid #30363d; border-radius: 6px; cursor: not-allowed; font-weight: 600; text-align: center; width: 100%;">
-          📥 Download Certificate
-        </button>
-        <button id="post-linkedin-btn" disabled style="background-color: #21262d; color: #8b949e; padding: 0.75rem 1.5rem; border: 1px solid #30363d; border-radius: 6px; cursor: not-allowed; font-weight: 600; text-align: center; width: 100%;">
-          🔗 Post to LinkedIn
-        </button>
-      </div>
-    </div>
+    <!-- This section is now empty, buttons moved to header -->
   </div>
 
   <div id="success-message" style="display: none; padding: 1rem; background-color: #1a472a; border: 1px solid #238636; border-radius: 4px; color: #3fb950; margin-top: 1rem;">
@@ -211,11 +210,13 @@
         return;
       }
       
-      const baseUrl = window.location.origin;
+      // Use relative URLs for navigation to work correctly on GitHub Pages
+      // The URLs are already relative paths like '/course/01-intro-agentic-architect.html'
       const gridHTML = MODULES.map(mod => {
         const isCompleted = moduleStatuses[mod.number] || false;
         const isCurrent = mod.number === moduleNumber;
-        const moduleUrl = baseUrl + mod.url;
+        // Use relative URL - works on both local and GitHub Pages
+        const moduleUrl = mod.url;
         
         return `
           <a href="${moduleUrl}" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background-color: ${isCurrent ? '#21262d' : '#0d1117'}; border: 2px solid ${isCurrent ? '#667eea' : '#30363d'}; border-radius: 6px; text-decoration: none; color: #c9d1d9; transition: all 0.2s; ${isCurrent ? 'box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);' : ''}">
@@ -707,6 +708,11 @@
     function showProgressSection() {
       document.getElementById('registration-section').style.display = 'none';
       document.getElementById('progress-section').style.display = 'block';
+      // Show certificate buttons in header when registered
+      const certButtonsContainer = document.getElementById('certificate-buttons-container');
+      if (certButtonsContainer) {
+        certButtonsContainer.style.display = 'flex';
+      }
       // Modules navigation is always visible, no need to show/hide it
     }
     
