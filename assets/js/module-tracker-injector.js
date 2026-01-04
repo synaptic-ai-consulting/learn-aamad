@@ -193,14 +193,14 @@
   function initializeTracker(moduleNumber, API_BASE_URL) {
     // Module metadata - defined first so it's available for rendering
     const MODULES = [
-      { number: 1, title: 'Introduction to Agentic Architect', url: '/course/01-intro-agentic-architect.html' },
-      { number: 2, title: 'AAMAD Overview', url: '/course/02-aamad-overview.html' },
-      { number: 3, title: 'Context Engineering Basics', url: '/course/03-context-engineering-basics.html' },
-      { number: 4, title: 'Building Multi-Agent AI Systems', url: '/course/04-building-your-multiagent-application-crew.html' },
-      { number: 5, title: 'Hands-On: Define Phase', url: '/course/05-hands-on-mini-project-define.html' },
-      { number: 6, title: 'Hands-On: Build Phase', url: '/course/06-hands-on-mini-project-build.html' },
-      { number: 7, title: 'Hands-On: Deliver Phase', url: '/course/07-hands-on-mini-project-deliver.html' },
-      { number: 8, title: 'Value and Next Steps', url: '/course/08-value-and-next-steps.html' }
+      { number: 1, title: 'Introduction to Agentic Architect', url: '/learn-aamad/course/01-intro-agentic-architect.html' },
+      { number: 2, title: 'AAMAD Overview', url: '/learn-aamad/course/02-aamad-overview.html' },
+      { number: 3, title: 'Context Engineering Basics', url: '/learn-aamad/course/03-context-engineering-basics.html' },
+      { number: 4, title: 'Building Multi-Agent AI Systems', url: '/learn-aamad/course/04-building-your-multiagent-application-crew.html' },
+      { number: 5, title: 'Hands-On: Define Phase', url: '/learn-aamad/course/05-hands-on-mini-project-define.html' },
+      { number: 6, title: 'Hands-On: Build Phase', url: '/learn-aamad/course/06-hands-on-mini-project-build.html' },
+      { number: 7, title: 'Hands-On: Deliver Phase', url: '/learn-aamad/course/07-hands-on-mini-project-deliver.html' },
+      { number: 8, title: 'Value and Next Steps', url: '/learn-aamad/course/08-value-and-next-steps.html' }
     ];
     
     function renderModulesGrid(moduleStatuses = {}) {
