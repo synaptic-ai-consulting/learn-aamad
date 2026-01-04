@@ -783,7 +783,7 @@
       const baseUrl = window.location.origin;
       const verifyUrl = `${baseUrl}/verify-certificate.html?code=${certificateData.verification_code}`;
       
-      // Create suggested post text
+      // Create suggested post text with certificate PDF URL included
       const suggestedText = `🎓 Excited to share that I've completed the "Agentic Architect Fundamentals" course by Synaptic AI Consulting!
 
 ✅ I've learned how to leverage the AAMAD (AI-Assisted Multi-Agent Application Development) framework to build production-ready AI applications using a persona-driven, context-engineered approach.
@@ -794,7 +794,9 @@ This course has equipped me with the skills to:
 • Build multi-agent systems with CrewAI
 • Apply the Agentic Architect mindset to deliver real business value
 
-Verify my certificate: ${verifyUrl}
+📜 View my certificate: ${certificateData.certificate_url}
+
+Verify: ${verifyUrl}
 
 #AgenticArchitect #AAMAD #AI #CrewAI #AIAgents #MachineLearning #SoftwareArchitecture`;
       
