@@ -804,19 +804,51 @@ This course has equipped me with the skills to:
       const copyBtn = document.getElementById('copy-linkedin-text');
       if (copyBtn) {
         copyBtn.onclick = () => {
-          postText.select();
-          document.execCommand('copy');
-          copyBtn.textContent = '✅ Copied!';
-          setTimeout(() => {
-            copyBtn.textContent = '📋 Copy Text';
-          }, 2000);
+          copyTextToClipboard(postText, suggestedText, copyBtn);
         };
       }
       
-      // Open LinkedIn button
+      // Function to copy text to clipboard
+      function copyTextToClipboard(textElement, text, button) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => {
+            if (button) {
+              button.textContent = '✅ Copied!';
+              setTimeout(() => {
+                button.textContent = '📋 Copy Text';
+              }, 2000);
+            }
+          }).catch(() => {
+            // Fallback to execCommand
+            textElement.select();
+            document.execCommand('copy');
+            if (button) {
+              button.textContent = '✅ Copied!';
+              setTimeout(() => {
+                button.textContent = '📋 Copy Text';
+              }, 2000);
+            }
+          });
+        } else {
+          // Fallback for older browsers
+          textElement.select();
+          document.execCommand('copy');
+          if (button) {
+            button.textContent = '✅ Copied!';
+            setTimeout(() => {
+              button.textContent = '📋 Copy Text';
+            }, 2000);
+          }
+        }
+      }
+      
+      // Open LinkedIn button - copy text automatically and open LinkedIn feed
       const openLinkedInBtn = document.getElementById('open-linkedin-btn');
       if (openLinkedInBtn) {
         openLinkedInBtn.onclick = () => {
+          // Copy text to clipboard first
+          copyTextToClipboard(postText, suggestedText, null);
+          // Open LinkedIn feed (user will need to click "Start a post" and paste)
           window.open('https://www.linkedin.com/feed/', '_blank');
         };
       }
