@@ -287,9 +287,27 @@
           let next = heading.nextElementSibling;
           while (next && next.tagName !== 'H2' && next.tagName !== 'H3') {
             if (next.tagName === 'OL' || next.tagName === 'UL') {
-              next.querySelectorAll('li').forEach((li, index) => {
+              // Get all list items
+              const listItems = next.querySelectorAll('li');
+              let questionNumber = 1;
+              
+              listItems.forEach((li, index) => {
                 const text = li.textContent.trim();
-                if (text) questions.push({ number: index + 1, text: text });
+                if (text) {
+                  // Check if this is a question (starts with number and bold text, or is a numbered list item)
+                  // Skip items that look like scenario descriptions (start with "Scenario:" or are bold without numbers)
+                  const startsWithNumber = /^\d+\./.test(text);
+                  const isScenario = /^Scenario:/i.test(text) || (/^\*\*/.test(text) && !startsWithNumber);
+                  
+                  // Only include items that are actual questions (start with numbers)
+                  if (startsWithNumber && !isScenario) {
+                    // Remove the number prefix and trim
+                    const questionText = text.replace(/^\d+\.\s*/, '').trim();
+                    questions.push({ number: questionNumber, text: questionText });
+                    questionNumber++;
+                  }
+                  // Skip scenarios and intro text (they don't start with numbers or are marked as scenarios)
+                }
               });
               break;
             }

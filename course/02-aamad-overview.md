@@ -433,27 +433,30 @@ Once set up, you follow the three-phase process, using the Development Crew to b
 
 Reflect on these questions to solidify your understanding:
 
-1. **Phase Identification**: For each scenario, identify which AAMAD phase it belongs to:
-   - Writing a Product Requirements Document
-   - Deploying an application to production
-   - Writing unit tests for a feature
-   - Creating a runbook for operations
-   - Designing the system architecture
+For each scenario below, identify which AAMAD phase it belongs to:
+- Writing a Product Requirements Document
+- Deploying an application to production
+- Writing unit tests for a feature
+- Creating a runbook for operations
+- Designing the system architecture
 
-2. **Crew Distinction**: Imagine you're building a document processing system. 
+1. **Crew Distinction**: Imagine you're building a document processing system. 
    - What would be in your **Application Crew**? (What agents will users interact with?)
    - What would be in your **Development Crew**? (What agents will build the system?)
 
-3. **Artifact Traceability**: Why is it important that AAMAD stores all decisions as markdown artifacts? How does this help with maintenance and debugging?
+2. **Artifact Traceability**: Why is it important that AAMAD stores all decisions as markdown artifacts? How does this help with maintenance and debugging?
 
-4. **Persona Benefits**: How does the persona-driven approach (single responsibility per agent) help prevent the "slop" problem in AI-assisted development?
+3. **Persona Benefits**: How does the persona-driven approach (single responsibility per agent) help prevent the "slop" problem in AI-assisted development?
 
-5. **Phase Dependencies**: Why must the phases run in order (Define → Build → Deliver)? What would happen if you tried to Build without Define, or Deliver without Build?
+4. **Phase Dependencies**: Why must the phases run in order (Define → Build → Deliver)? What would happen if you tried to Build without Define, or Deliver without Build?
 
-6. **Cursor Rules and Templates**: 
-   - How do Cursor rules ensure consistency across different agent personas and chat sessions?
-   - What's the difference between a template (like `prd-template.md`) and the actual artifact (like `prd.md`)?
-   - Why are templates important for maintaining quality in AI-generated artifacts?
+**Scenario: Cursor Rules and Templates**
+
+You're starting a new project using AAMAD. You need to set up Cursor rules and understand how templates work with agent personas.
+
+5. How do Cursor rules ensure consistency across different agent personas and chat sessions?
+
+6. What's the difference between a template (like `prd-template.md`) and the actual artifact (like `prd.md`)? Why are templates important for maintaining quality in AI-generated artifacts?
 
 ---
 
