@@ -82,7 +82,7 @@
 <div id="module-tracker" data-module-number="${moduleNumber}" style="margin: 2rem 0; padding: 1.5rem; border: 2px solid #30363d; border-radius: 6px; background-color: #161b22;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
     <h3 style="margin: 0; color: #c9d1d9;">📊 Track Your Progress</h3>
-    <div id="certificate-buttons-container" style="display: none; gap: 0.75rem;">
+    <div id="certificate-action-buttons" style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
       <button id="download-certificate-btn" disabled style="background-color: #21262d; color: #8b949e; padding: 0.75rem 1.5rem; border: 1px solid #30363d; border-radius: 6px; cursor: not-allowed; font-weight: 600; text-align: center;">
         📥 Download Certificate
       </button>
@@ -601,26 +601,7 @@
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.certificate_url) {
-            // Update certificate buttons in the top tracker
-            const downloadBtn = document.getElementById('download-certificate-btn');
-            const linkedInBtn = document.getElementById('post-linkedin-btn');
-            const baseUrl = window.location.origin;
-            const verifyUrl = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
-            
-            if (downloadBtn) {
-              downloadBtn.onclick = () => {
-                window.open(data.certificate_url, '_blank');
-              };
-            }
-            
-            if (linkedInBtn) {
-              linkedInBtn.onclick = () => {
-                const shareUrl = encodeURIComponent(verifyUrl);
-                window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
-              };
-            }
-            
-            // Also show the certificate section if it exists (for backward compatibility)
+            // Show the certificate section if it exists (for backward compatibility)
             const certSection = document.getElementById('certificate-section');
             if (certSection) {
               certSection.style.display = 'block';
@@ -629,10 +610,15 @@
               const downloadLink = document.getElementById('certificate-download-link');
               if (downloadLink) downloadLink.href = data.certificate_url;
               const verifyLink = document.getElementById('verify-certificate-link');
-              if (verifyLink) verifyLink.href = verifyUrl;
+              if (verifyLink) {
+                const baseUrl = window.location.origin;
+                verifyLink.href = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
+              }
               const shareBtn = document.getElementById('share-linkedin-btn');
               if (shareBtn) {
                 shareBtn.onclick = () => {
+                  const baseUrl = window.location.origin;
+                  const verifyUrl = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
                   const shareUrl = encodeURIComponent(verifyUrl);
                   window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
                 };
@@ -708,11 +694,7 @@
     function showProgressSection() {
       document.getElementById('registration-section').style.display = 'none';
       document.getElementById('progress-section').style.display = 'block';
-      // Show certificate buttons in header when registered
-      const certButtonsContainer = document.getElementById('certificate-buttons-container');
-      if (certButtonsContainer) {
-        certButtonsContainer.style.display = 'flex';
-      }
+      // Certificate buttons are always visible, no need to show/hide them
       // Modules navigation is always visible, no need to show/hide it
     }
     
