@@ -469,10 +469,42 @@
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ student_id: currentStudentId })
             });
+            // Reload all module statuses to update the grid
+            const updatedStatuses = await loadAllModuleStatuses();
+            renderModulesGrid(updatedStatuses);
+            const completedCount = Object.values(updatedStatuses).filter(Boolean).length;
+            const completedCountEl = document.getElementById('completed-count');
+            if (completedCountEl) completedCountEl.textContent = completedCount;
+            
+            // Update certificate buttons
+            const downloadBtn = document.getElementById('download-certificate-btn');
+            const linkedInBtn = document.getElementById('post-linkedin-btn');
+            if (downloadBtn) {
+              downloadBtn.disabled = false;
+              downloadBtn.style.backgroundColor = '#667eea';
+              downloadBtn.style.color = 'white';
+              downloadBtn.style.cursor = 'pointer';
+              downloadBtn.style.borderColor = '#667eea';
+            }
+            if (linkedInBtn) {
+              linkedInBtn.disabled = false;
+              linkedInBtn.style.backgroundColor = '#0077b5';
+              linkedInBtn.style.color = 'white';
+              linkedInBtn.style.cursor = 'pointer';
+              linkedInBtn.style.borderColor = '#0077b5';
+            }
+            
             setTimeout(() => checkAndDisplayCertificate(), 1000);
           } catch (err) {
             setTimeout(() => checkAndDisplayCertificate(), 1000);
           }
+        } else {
+          // Reload all module statuses to update the grid
+          const updatedStatuses = await loadAllModuleStatuses();
+          renderModulesGrid(updatedStatuses);
+          const completedCount = Object.values(updatedStatuses).filter(Boolean).length;
+          const completedCountEl = document.getElementById('completed-count');
+          if (completedCountEl) completedCountEl.textContent = completedCount;
         }
         
         document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
@@ -527,24 +559,103 @@
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.certificate_url) {
+            // Update certificate buttons in the top tracker
+            const downloadBtn = document.getElementById('download-certificate-btn');
+            const linkedInBtn = document.getElementById('post-linkedin-btn');
+            const baseUrl = window.location.origin;
+            const verifyUrl = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
+            
+            if (downloadBtn) {
+              downloadBtn.onclick = () => {
+                window.open(data.certificate_url, '_blank');
+              };
+            }
+            
+            if (linkedInBtn) {
+              linkedInBtn.onclick = () => {
+                const shareUrl = encodeURIComponent(verifyUrl);
+                window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
+              };
+            }
+            
+            // Also show the certificate section if it exists (for backward compatibility)
             const certSection = document.getElementById('certificate-section');
             if (certSection) {
               certSection.style.display = 'block';
-              document.getElementById('verification-code').textContent = data.verification_code;
-              document.getElementById('certificate-download-link').href = data.certificate_url;
-              const baseUrl = window.location.origin;
-              document.getElementById('verify-certificate-link').href = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
-              document.getElementById('share-linkedin-btn').addEventListener('click', () => {
-                const shareUrl = encodeURIComponent(`${baseUrl}/verify-certificate.html?code=${data.verification_code}`);
-                window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
-              });
-              certSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              const verifyCodeEl = document.getElementById('verification-code');
+              if (verifyCodeEl) verifyCodeEl.textContent = data.verification_code;
+              const downloadLink = document.getElementById('certificate-download-link');
+              if (downloadLink) downloadLink.href = data.certificate_url;
+              const verifyLink = document.getElementById('verify-certificate-link');
+              if (verifyLink) verifyLink.href = verifyUrl;
+              const shareBtn = document.getElementById('share-linkedin-btn');
+              if (shareBtn) {
+                shareBtn.onclick = () => {
+                  const shareUrl = encodeURIComponent(verifyUrl);
+                  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
+                };
+              }
             }
           }
         }
       } catch (error) {
         console.error('Error checking certificate:', error);
       }
+    }
+    
+    // Set up certificate button handlers
+    const downloadBtn = document.getElementById('download-certificate-btn');
+    const linkedInBtn = document.getElementById('post-linkedin-btn');
+    
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', async () => {
+        if (downloadBtn.disabled) return;
+        const currentStudentId = localStorage.getItem('learn-aamad-student-id');
+        if (!currentStudentId) {
+          showError('Please register first.');
+          return;
+        }
+        try {
+          const response = await fetch(`${API_BASE_URL}/get-certificate?student_id=${currentStudentId}`);
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.certificate_url) {
+              window.open(data.certificate_url, '_blank');
+            } else {
+              showError('Certificate not found. Please complete all modules first.');
+            }
+          }
+        } catch (error) {
+          showError('Failed to download certificate.');
+        }
+      });
+    }
+    
+    if (linkedInBtn) {
+      linkedInBtn.addEventListener('click', async () => {
+        if (linkedInBtn.disabled) return;
+        const currentStudentId = localStorage.getItem('learn-aamad-student-id');
+        if (!currentStudentId) {
+          showError('Please register first.');
+          return;
+        }
+        try {
+          const response = await fetch(`${API_BASE_URL}/get-certificate?student_id=${currentStudentId}`);
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.verification_code) {
+              const baseUrl = window.location.origin;
+              const verifyUrl = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
+              const shareUrl = encodeURIComponent(verifyUrl);
+              window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
+            } else {
+              showError('Certificate not found. Please complete all modules first.');
+            }
+          }
+        } catch (error) {
+          showError('Failed to share certificate.');
+        }
+      });
     }
     
     function showRegistrationSection() {
