@@ -195,6 +195,10 @@
     const studentId = localStorage.getItem('learn-aamad-student-id');
     const studentEmail = localStorage.getItem('learn-aamad-student-email');
     
+    // Always render the modules grid (even without registration)
+    // This ensures navigation is always available
+    renderModulesGrid({});
+    
     if (studentId && studentEmail) {
       showProgressSection();
       loadModuleStatus();
@@ -313,12 +317,15 @@
       { number: 8, title: 'Value and Next Steps', url: '/course/08-value-and-next-steps.html' }
     ];
     
-    function renderModulesGrid(moduleStatuses) {
+    function renderModulesGrid(moduleStatuses = {}) {
       const grid = document.getElementById('modules-grid');
-      if (!grid) return;
+      if (!grid) {
+        console.warn('modules-grid element not found');
+        return;
+      }
       
       const baseUrl = window.location.origin;
-      grid.innerHTML = MODULES.map(mod => {
+      const gridHTML = MODULES.map(mod => {
         const isCompleted = moduleStatuses[mod.number] || false;
         const isCurrent = mod.number === moduleNumber;
         const moduleUrl = baseUrl + mod.url;
@@ -335,6 +342,9 @@
           </a>
         `;
       }).join('');
+      
+      grid.innerHTML = gridHTML;
+      console.log('Modules grid rendered with', MODULES.length, 'modules');
     }
     
     async function loadAllModuleStatuses() {
