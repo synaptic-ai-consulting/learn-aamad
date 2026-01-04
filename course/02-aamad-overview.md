@@ -433,30 +433,29 @@ Once set up, you follow the three-phase process, using the Development Crew to b
 
 Reflect on these questions to solidify your understanding:
 
-For each scenario below, identify which AAMAD phase it belongs to:
-- Writing a Product Requirements Document
-- Deploying an application to production
-- Writing unit tests for a feature
-- Creating a runbook for operations
-- Designing the system architecture
+1. **Phase Identification**: Which AAMAD phase does "Writing a Product Requirements Document" belong to?
 
-1. **Crew Distinction**: Imagine you're building a document processing system. 
+2. **Phase Identification**: Which AAMAD phase does "Deploying an application to production" belong to?
+
+3. **Phase Identification**: Which AAMAD phase does "Writing unit tests for a feature" belong to?
+
+4. **Phase Identification**: Which AAMAD phase does "Creating a runbook for operations" belong to?
+
+5. **Phase Identification**: Which AAMAD phase does "Designing the system architecture" belong to?
+
+6. **Crew Distinction**: Imagine you're building a document processing system. 
    - What would be in your **Application Crew**? (What agents will users interact with?)
    - What would be in your **Development Crew**? (What agents will build the system?)
 
-2. **Artifact Traceability**: Why is it important that AAMAD stores all decisions as markdown artifacts? How does this help with maintenance and debugging?
+7. **Artifact Traceability**: Why is it important that AAMAD stores all decisions as markdown artifacts? How does this help with maintenance and debugging?
 
-3. **Persona Benefits**: How does the persona-driven approach (single responsibility per agent) help prevent the "slop" problem in AI-assisted development?
+8. **Persona Benefits**: How does the persona-driven approach (single responsibility per agent) help prevent the "slop" problem in AI-assisted development?
 
-4. **Phase Dependencies**: Why must the phases run in order (Define → Build → Deliver)? What would happen if you tried to Build without Define, or Deliver without Build?
+9. **Phase Dependencies**: Why must the phases run in order (Define → Build → Deliver)? What would happen if you tried to Build without Define, or Deliver without Build?
 
-**Scenario: Cursor Rules and Templates**
+10. **Cursor Rules Consistency**: How do Cursor rules ensure consistency across different agent personas and chat sessions?
 
-You're starting a new project using AAMAD. You need to set up Cursor rules and understand how templates work with agent personas.
-
-5. How do Cursor rules ensure consistency across different agent personas and chat sessions?
-
-6. What's the difference between a template (like `prd-template.md`) and the actual artifact (like `prd.md`)? Why are templates important for maintaining quality in AI-generated artifacts?
+11. **Templates vs Artifacts**: What's the difference between a template (like `prd-template.md`) and the actual artifact (like `prd.md`)? Why are templates important for maintaining quality in AI-generated artifacts?
 
 ---
 
