@@ -842,14 +842,15 @@ This course has equipped me with the skills to:
         }
       }
       
-      // Open LinkedIn button - copy text automatically and open LinkedIn feed
+      // Open LinkedIn button - copy text automatically and open LinkedIn share dialog
       const openLinkedInBtn = document.getElementById('open-linkedin-btn');
       if (openLinkedInBtn) {
         openLinkedInBtn.onclick = () => {
           // Copy text to clipboard first
           copyTextToClipboard(postText, suggestedText, null);
-          // Open LinkedIn feed (user will need to click "Start a post" and paste)
-          window.open('https://www.linkedin.com/feed/', '_blank');
+          // Open LinkedIn share dialog with certificate URL (opens post composer directly)
+          const shareUrl = encodeURIComponent(certificateData.certificate_url);
+          window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
         };
       }
       
