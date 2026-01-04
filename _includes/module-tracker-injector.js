@@ -103,21 +103,21 @@
     </form>
   </div>
 
+  <!-- Module Navigation Grid - Always visible for navigation -->
+  <div id="modules-navigation-section" style="margin-bottom: 2rem;">
+    <h4 style="color: #c9d1d9; margin-top: 0; margin-bottom: 1rem;">Course Progress</h4>
+    <div id="modules-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1rem;">
+      <!-- Modules will be injected here -->
+    </div>
+    <div id="progress-summary" style="color: #8b949e; font-size: 0.9rem;">
+      <span id="completed-count">0</span> of 8 modules completed
+    </div>
+  </div>
+
   <div id="progress-section" style="display: none;">
     <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
-      <!-- Module Navigation Grid -->
-      <div style="flex: 1; min-width: 300px;">
-        <h4 style="color: #c9d1d9; margin-top: 0; margin-bottom: 1rem;">Course Progress</h4>
-        <div id="modules-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1rem;">
-          <!-- Modules will be injected here -->
-        </div>
-        <div id="progress-summary" style="color: #8b949e; font-size: 0.9rem;">
-          <span id="completed-count">0</span> of 8 modules completed
-        </div>
-      </div>
-      
       <!-- Certificate Actions -->
-      <div style="display: flex; flex-direction: column; gap: 0.75rem; min-width: 200px;">
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; min-width: 200px; margin-left: auto;">
         <button id="download-certificate-btn" disabled style="background-color: #21262d; color: #8b949e; padding: 0.75rem 1.5rem; border: 1px solid #30363d; border-radius: 6px; cursor: not-allowed; font-weight: 600; text-align: center; width: 100%;">
           📥 Download Certificate
         </button>
@@ -471,23 +471,31 @@
       submitBtn.textContent = 'Submitting...';
       
       try {
+        const submissionData = {
+          student_id: currentStudentId,
+          module_number: moduleNumber,
+          answers: answers,
+          submission_url: document.getElementById('submission-url').value || null
+        };
+        
+        console.log('Submitting module completion:', submissionData);
+        
         const response = await fetch(API_BASE_URL + '/complete-module', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            student_id: currentStudentId,
-            module_number: moduleNumber,
-            answers: answers,
-            submission_url: document.getElementById('submission-url').value || null
-          })
+          body: JSON.stringify(submissionData)
         });
         
+        console.log('Module completion response status:', response.status, response.statusText);
+        
         if (!response.ok) {
-          const errorData = await response.json();
+          const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+          console.error('Module completion failed:', errorData);
           throw new Error(errorData.error || 'Submission failed');
         }
         
         const data = await response.json();
+        console.log('Module completion success:', data);
         document.getElementById('status-text').textContent = '✅ Completed';
         document.getElementById('progress-fill').style.width = '100%';
         document.getElementById('success-message').style.display = 'block';
@@ -699,6 +707,7 @@
     function showProgressSection() {
       document.getElementById('registration-section').style.display = 'none';
       document.getElementById('progress-section').style.display = 'block';
+      // Modules navigation is always visible, no need to show/hide it
     }
     
     function showError(message) {
