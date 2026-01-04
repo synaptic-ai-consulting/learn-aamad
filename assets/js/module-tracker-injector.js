@@ -158,6 +158,42 @@
     <span id="error-text"></span>
   </div>
 </div>
+
+<!-- LinkedIn Share Modal -->
+<div id="linkedin-share-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; align-items: center; justify-content: center;">
+  <div style="background-color: #161b22; border: 2px solid #30363d; border-radius: 8px; padding: 2rem; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative;">
+    <button id="close-linkedin-modal" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #c9d1d9; font-size: 1.5rem; cursor: pointer; padding: 0.5rem; line-height: 1;">&times;</button>
+    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 1.5rem;">🔗 Share Your Certificate on LinkedIn</h3>
+    
+    <div style="margin-bottom: 1.5rem;">
+      <label style="color: #c9d1d9; display: block; margin-bottom: 0.5rem; font-weight: 600;">Suggested Post Text:</label>
+      <textarea id="linkedin-post-text" readonly style="width: 100%; min-height: 150px; padding: 0.75rem; background-color: #0d1117; border: 1px solid #30363d; border-radius: 4px; color: #c9d1d9; font-family: inherit; resize: vertical;"></textarea>
+      <button id="copy-linkedin-text" style="margin-top: 0.5rem; background-color: #667eea; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
+        📋 Copy Text
+      </button>
+    </div>
+    
+    <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: #0d1117; border: 1px solid #30363d; border-radius: 4px;">
+      <p style="color: #c9d1d9; margin: 0 0 0.5rem 0; font-weight: 600;">Instructions:</p>
+      <ol style="color: #8b949e; margin: 0; padding-left: 1.5rem;">
+        <li style="margin-bottom: 0.5rem;">Copy the post text above</li>
+        <li style="margin-bottom: 0.5rem;">Click "Open LinkedIn" below</li>
+        <li style="margin-bottom: 0.5rem;">Paste the text in your LinkedIn post</li>
+        <li style="margin-bottom: 0.5rem;">Attach your certificate PDF (download it first using the Download button)</li>
+        <li>Publish your post!</li>
+      </ol>
+    </div>
+    
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+      <button id="open-linkedin-btn" style="flex: 1; background-color: #0077b5; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; min-width: 150px;">
+        🔗 Open LinkedIn
+      </button>
+      <button id="download-cert-from-modal" style="flex: 1; background-color: #667eea; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; min-width: 150px;">
+        📥 Download Certificate
+      </button>
+    </div>
+  </div>
+</div>
     `;
 
     // Bottom container: Answers submission form
@@ -651,10 +687,7 @@
             const shareBtn = document.getElementById('share-linkedin-btn');
             if (shareBtn) {
               shareBtn.onclick = () => {
-                const baseUrl = window.location.origin;
-                const verifyUrl = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
-                const shareUrl = encodeURIComponent(verifyUrl);
-                window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
+                showLinkedInShareModal(data);
               };
             }
           }
@@ -707,11 +740,8 @@
           linkedInBtn.disabled = true;
           linkedInBtn.textContent = '⏳ Generating...';
           const data = await ensureCertificateExists(currentStudentId);
-          if (data && data.success && data.verification_code) {
-            const baseUrl = window.location.origin;
-            const verifyUrl = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
-            const shareUrl = encodeURIComponent(verifyUrl);
-            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
+          if (data && data.success && data.verification_code && data.certificate_url) {
+            showLinkedInShareModal(data);
           } else {
             showError('Certificate not found. Please complete all modules first.');
           }
@@ -745,6 +775,79 @@
         errorDiv.style.display = 'block';
         setTimeout(() => { errorDiv.style.display = 'none'; }, 5000);
       }
+    }
+    
+    function showLinkedInShareModal(certificateData) {
+      const modal = document.getElementById('linkedin-share-modal');
+      const postText = document.getElementById('linkedin-post-text');
+      const baseUrl = window.location.origin;
+      const verifyUrl = `${baseUrl}/verify-certificate.html?code=${certificateData.verification_code}`;
+      
+      // Create suggested post text
+      const suggestedText = `🎓 Excited to share that I've completed the "Agentic Architect Fundamentals" course by Synaptic AI Consulting!
+
+✅ I've learned how to leverage the AAMAD (AI-Assisted Multi-Agent Application Development) framework to build production-ready AI applications using a persona-driven, context-engineered approach.
+
+This course has equipped me with the skills to:
+• Orchestrate AI agent personas effectively
+• Engineer context for optimal AI performance
+• Build multi-agent systems with CrewAI
+• Apply the Agentic Architect mindset to deliver real business value
+
+Verify my certificate: ${verifyUrl}
+
+#AgenticArchitect #AAMAD #AI #CrewAI #AIAgents #MachineLearning #SoftwareArchitecture`;
+      
+      if (postText) {
+        postText.value = suggestedText;
+      }
+      
+      // Copy text button
+      const copyBtn = document.getElementById('copy-linkedin-text');
+      if (copyBtn) {
+        copyBtn.onclick = () => {
+          postText.select();
+          document.execCommand('copy');
+          copyBtn.textContent = '✅ Copied!';
+          setTimeout(() => {
+            copyBtn.textContent = '📋 Copy Text';
+          }, 2000);
+        };
+      }
+      
+      // Open LinkedIn button
+      const openLinkedInBtn = document.getElementById('open-linkedin-btn');
+      if (openLinkedInBtn) {
+        openLinkedInBtn.onclick = () => {
+          window.open('https://www.linkedin.com/feed/', '_blank');
+        };
+      }
+      
+      // Download certificate button in modal
+      const downloadBtn = document.getElementById('download-cert-from-modal');
+      if (downloadBtn) {
+        downloadBtn.onclick = () => {
+          window.open(certificateData.certificate_url, '_blank');
+        };
+      }
+      
+      // Close modal button
+      const closeBtn = document.getElementById('close-linkedin-modal');
+      if (closeBtn) {
+        closeBtn.onclick = () => {
+          modal.style.display = 'none';
+        };
+      }
+      
+      // Close modal when clicking outside
+      modal.onclick = (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      };
+      
+      // Show modal
+      modal.style.display = 'flex';
     }
   }
 })();
