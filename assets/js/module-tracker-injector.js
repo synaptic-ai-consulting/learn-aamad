@@ -592,37 +592,70 @@
       }
     });
     
+    async function ensureCertificateExists(studentId) {
+      // Check if certificate exists, generate if it doesn't
+      try {
+        const checkResponse = await fetch(`${API_BASE_URL}/get-certificate?student_id=${studentId}`);
+        if (checkResponse.ok) {
+          // Certificate exists, return the data
+          const data = await checkResponse.json();
+          return data;
+        } else if (checkResponse.status === 404) {
+          // Certificate doesn't exist, generate it
+          console.log('Certificate not found, generating...');
+          const generateResponse = await fetch(`${API_BASE_URL}/generate-certificate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ student_id: studentId })
+          });
+          
+          if (generateResponse.ok) {
+            // Generation successful, now fetch the certificate
+            const generateData = await generateResponse.json();
+            if (generateData.success) {
+              // Return the certificate data from generation response
+              return generateData;
+            }
+          } else {
+            const errorData = await generateResponse.json().catch(() => ({ error: 'Generation failed' }));
+            throw new Error(errorData.error || 'Failed to generate certificate');
+          }
+        }
+      } catch (error) {
+        console.error('Error ensuring certificate exists:', error);
+        throw error;
+      }
+      return null;
+    }
+    
     async function checkAndDisplayCertificate() {
       // Read studentId from localStorage (not closure variable)
       const currentStudentId = localStorage.getItem('learn-aamad-student-id');
       if (!currentStudentId) return;
       try {
-        const response = await fetch(`${API_BASE_URL}/get-certificate?student_id=${currentStudentId}`);
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.certificate_url) {
-            // Show the certificate section if it exists (for backward compatibility)
-            const certSection = document.getElementById('certificate-section');
-            if (certSection) {
-              certSection.style.display = 'block';
-              const verifyCodeEl = document.getElementById('verification-code');
-              if (verifyCodeEl) verifyCodeEl.textContent = data.verification_code;
-              const downloadLink = document.getElementById('certificate-download-link');
-              if (downloadLink) downloadLink.href = data.certificate_url;
-              const verifyLink = document.getElementById('verify-certificate-link');
-              if (verifyLink) {
+        const data = await ensureCertificateExists(currentStudentId);
+        if (data && data.success && data.certificate_url) {
+          // Show the certificate section if it exists (for backward compatibility)
+          const certSection = document.getElementById('certificate-section');
+          if (certSection) {
+            certSection.style.display = 'block';
+            const verifyCodeEl = document.getElementById('verification-code');
+            if (verifyCodeEl) verifyCodeEl.textContent = data.verification_code;
+            const downloadLink = document.getElementById('certificate-download-link');
+            if (downloadLink) downloadLink.href = data.certificate_url;
+            const verifyLink = document.getElementById('verify-certificate-link');
+            if (verifyLink) {
+              const baseUrl = window.location.origin;
+              verifyLink.href = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
+            }
+            const shareBtn = document.getElementById('share-linkedin-btn');
+            if (shareBtn) {
+              shareBtn.onclick = () => {
                 const baseUrl = window.location.origin;
-                verifyLink.href = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
-              }
-              const shareBtn = document.getElementById('share-linkedin-btn');
-              if (shareBtn) {
-                shareBtn.onclick = () => {
-                  const baseUrl = window.location.origin;
-                  const verifyUrl = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
-                  const shareUrl = encodeURIComponent(verifyUrl);
-                  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
-                };
-              }
+                const verifyUrl = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
+                const shareUrl = encodeURIComponent(verifyUrl);
+                window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
+              };
             }
           }
         }
@@ -644,17 +677,20 @@
           return;
         }
         try {
-          const response = await fetch(`${API_BASE_URL}/get-certificate?student_id=${currentStudentId}`);
-          if (response.ok) {
-            const data = await response.json();
-            if (data.success && data.certificate_url) {
-              window.open(data.certificate_url, '_blank');
-            } else {
-              showError('Certificate not found. Please complete all modules first.');
-            }
+          downloadBtn.disabled = true;
+          downloadBtn.textContent = '⏳ Generating...';
+          const data = await ensureCertificateExists(currentStudentId);
+          if (data && data.success && data.certificate_url) {
+            window.open(data.certificate_url, '_blank');
+          } else {
+            showError('Certificate not found. Please complete all modules first.');
           }
+          downloadBtn.disabled = false;
+          downloadBtn.textContent = '📥 Download Certificate';
         } catch (error) {
-          showError('Failed to download certificate.');
+          showError(error.message || 'Failed to download certificate.');
+          downloadBtn.disabled = false;
+          downloadBtn.textContent = '📥 Download Certificate';
         }
       });
     }
@@ -668,20 +704,23 @@
           return;
         }
         try {
-          const response = await fetch(`${API_BASE_URL}/get-certificate?student_id=${currentStudentId}`);
-          if (response.ok) {
-            const data = await response.json();
-            if (data.success && data.verification_code) {
-              const baseUrl = window.location.origin;
-              const verifyUrl = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
-              const shareUrl = encodeURIComponent(verifyUrl);
-              window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
-            } else {
-              showError('Certificate not found. Please complete all modules first.');
-            }
+          linkedInBtn.disabled = true;
+          linkedInBtn.textContent = '⏳ Generating...';
+          const data = await ensureCertificateExists(currentStudentId);
+          if (data && data.success && data.verification_code) {
+            const baseUrl = window.location.origin;
+            const verifyUrl = `${baseUrl}/verify-certificate.html?code=${data.verification_code}`;
+            const shareUrl = encodeURIComponent(verifyUrl);
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
+          } else {
+            showError('Certificate not found. Please complete all modules first.');
           }
+          linkedInBtn.disabled = false;
+          linkedInBtn.textContent = '🔗 Post to LinkedIn';
         } catch (error) {
-          showError('Failed to share certificate.');
+          showError(error.message || 'Failed to share certificate.');
+          linkedInBtn.disabled = false;
+          linkedInBtn.textContent = '🔗 Post to LinkedIn';
         }
       });
     }
